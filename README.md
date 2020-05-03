@@ -37,3 +37,9 @@ yang ditentukan sebagai berikut:
 4. Composer
 5. Bower
 
+Contributors
+------------
+
+<p>Berikut daftar kontributor <b>RSUD ARIFIN ACHMAD SINGLE SIGN ON</b></p>
+
+1. AHMAD FAUZI RAHMAN ST , MTA
