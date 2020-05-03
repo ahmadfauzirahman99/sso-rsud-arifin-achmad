@@ -8,6 +8,7 @@ use app\models\TbPegawai;
 use Yii;
 use app\models\AkunAknUser;
 use app\models\AkunAknUserSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +19,34 @@ use yii\filters\VerbFilter;
 class UserController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
-        $this->layout = Auth::getRole();
-        return Auth::behaviors([
-            'deny' => function ($rule, $action) {
-                $this->redirect(['masuk/index']);
-            },
-        ]);
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
     }
+
 
     function writeResponse($condition, $msg = null, $data = null)
     {
