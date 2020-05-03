@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\StatusAkun;
 use Yii;
 
 /**
@@ -222,4 +223,20 @@ class AkunAknUser extends \yii\db\ActiveRecord
             }
         }
     }
+
+    public function isBelumAktifasi()
+    {
+        return $this->sta == StatusAkun::TERDAFTAR;
+    }
+
+    public function isSudahAktif()
+    {
+        return $this->sta == StatusAkun::AKTIF;
+    }
+
+    public function isSedangDiblokir()
+    {
+        return $this->sta == StatusAkun::BLOKIR;
+    }
+
 }
