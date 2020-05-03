@@ -23,6 +23,7 @@ use yii\bootstrap\ActiveForm;
             <div class="img-holder">
                 <div class="bg"></div>
                 <div class="info-holder">
+
                     <img src="<?= Yii::$app->request->baseUrl ?>/login-theme/images/graphic1.svg" alt="">
                 </div>
             </div>
@@ -30,13 +31,16 @@ use yii\bootstrap\ActiveForm;
                 <div class="form-content">
                     <div class="form-items">
                         <h3>Aplikasi E-Medical</h3>
-                        <p>Access to the most powerfull tool in the entire design and web industry.</p>
+                        <p><?= \app\widgets\Alert::widget() ?>
+                        </p>
+
                         <div class="page-links">
                             <a href="" class="active">RSUD ARIFIN ACHMAD</a>
+
                         </div>
                         <form method="post" action="#">
                             <input class="form-control" type="text" name="Masuk[]" placeholder="NIK / NIP / Email"
-                                   >
+                            >
                             <input class="form-control" type="password" name="Masuk[]" placeholder="Password">
 
                             <div class="form-button">
