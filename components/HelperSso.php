@@ -11,7 +11,9 @@ class HelperSso
     Const TypeUser = [
         'ROOT' => 'ROOT',
         'MEDIS' => 'MEDIS',
-        'NON-MEDIS' => 'NON-MEDIS'
+        'NONMEDIS' => 'NONMEDIS',
+        'APLIKASI' => 'APLIKASI',
+        'Eksternal' => 'Eksternal',
     ];
 
     Const TypeUserStatus = [
