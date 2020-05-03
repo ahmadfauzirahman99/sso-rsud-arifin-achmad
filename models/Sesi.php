@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\StatusAkun;
 use yii\db\Expression;
 use yii\helpers\Html;
 use Yii;
@@ -22,12 +23,14 @@ use Yii;
 class Sesi extends \yii\db\ActiveRecord
 {
 
+    private $_akun = false;
+    const SCENARIO_AUTHENTICATE = 'auth';
 
     public function getAkun()
     {
         if ($this->_akun === false) {
             $this->_akun = AkunAknUser::findOne([
-                'username' => $this->ida,
+                'userid' => $this->ida,
                 'status' => '0',
             ]);
         }
@@ -169,9 +172,9 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public function getTanggalAkses()
     {
-        if( empty($this->tat) ) {
+        if (empty($this->tat)) {
             return '';
-        } elseif( is_array($this->tat) || $this->tat instanceof Expression) {
+        } elseif (is_array($this->tat) || $this->tat instanceof Expression) {
             return date('Y-m-d H:i:s');
         } else {
             return $this->tat;
@@ -181,9 +184,13 @@ class Sesi extends \yii\db\ActiveRecord
     /**
      * @param string $tat
      */
-    public function setTanggalAksess($tat)
+    public function setTanggalAksess($value = null)
     {
-        $this->tat = $tat;
+        if (is_null($value)) {
+            $this->tgb = date('Y-m-d H:i:s');
+        } else {
+            $this->tgb = $value;
+        }
     }
 
     /**
@@ -231,13 +238,48 @@ class Sesi extends \yii\db\ActiveRecord
         return strtotime($this->bts) > time();
     }
 
+    public function validasiIdAkun()
+    {
+        if (!$this->hasErrors()) {
+            $akun = $this->getAkun();
+            if (is_null($akun)) {
+                $this->addError('o', 'Akun tidak ditemukan.');
+            } elseif ($akun->isBelumAktifasi()) {
+                $this->addError('o', 'Akun belum aktif.');
+            } elseif ($akun->isSedangDiblokir()) {
+                $this->addError('o', 'Akun sedang diblokir.');
+            }
+        }
+    }
+
+    public function setBatasSesiHabis()
+    {
+        if ($this->isKeluar()) {
+            $this->addError('o', 'Akun ini sudah keluar.');
+        } else {
+            $this->bts = date('Y-m-d H:i:s', strtotime('-3600 seconds'));
+        }
+    }
+
+    public function keluar()
+    {
+        if (!$this->validate()) {
+            return false;
+        } else {
+            $this->isk = '1';
+            $this->setBatasSesiHabis();
+            return $this->save(true);
+        }
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['tgb', 'bts', 'kds', 'ida', 'ipa', 'inf', 'tat'], 'required'],
+            [['tgb', 'bts', 'kds', 'ida', 'ipa', 'inf', 'tat'], 'safe'],
             [['tgb', 'bts', 'tat'], 'safe'],
             [['ida'], 'default', 'value' => null],
             [['ida'], 'integer'],
@@ -245,7 +287,7 @@ class Sesi extends \yii\db\ActiveRecord
             [['kds'], 'string', 'max' => 64],
             [['ipa'], 'string', 'max' => 30],
             [['isk'], 'string', 'max' => 1],
-            [['ida'], 'unique'],
+            [['ida'], 'validasiIdAkun', 'on' => self::SCENARIO_AUTHENTICATE],
         ];
     }
 
