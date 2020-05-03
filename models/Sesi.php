@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use yii\db\Expression;
+use yii\helpers\Html;
 use Yii;
 
 /**
@@ -23,7 +25,7 @@ class Sesi extends \yii\db\ActiveRecord
 
     public function getAkun()
     {
-        if( $this->_akun === false ) {
+        if ($this->_akun === false) {
             $this->_akun = AkunAknUser::findOne([
                 'username' => $this->ida,
                 'status' => '0',
@@ -93,7 +95,7 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public function getKodeSesi()
     {
-        return $this->kds;
+        return Html::encode($this->kds);
     }
 
     /**
@@ -144,6 +146,16 @@ class Sesi extends \yii\db\ActiveRecord
         return $this->inf;
     }
 
+    public function getIpAkun()
+    {
+        return Html::encode($this->ipa);
+    }
+
+    public function getInfo()
+    {
+        return Html::encode($this->inf);
+    }
+
     /**
      * @param string $inf
      */
@@ -157,7 +169,13 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public function getTanggalAkses()
     {
-        return $this->tat;
+        if( empty($this->tat) ) {
+            return '';
+        } elseif( is_array($this->tat) || $this->tat instanceof Expression) {
+            return date('Y-m-d H:i:s');
+        } else {
+            return $this->tat;
+        }
     }
 
     /**
