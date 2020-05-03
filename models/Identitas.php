@@ -7,62 +7,97 @@ use Yii;
 use yii\base\Model;
 use yii\web\IdentityInterface;
 
-/**
- * This is the model class for table "user".
- *
- * @property integer $userid
- * @property string $username
- * @property string $password
- * @property string $nama
- * @property string $email
- * @property string $telepon
- * @property string $role
- *
- * @property TbPegawai $id_pegawai
- */
+
 class Identitas extends Model implements IdentityInterface
 {
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    public $id;
+    public $idSesi;
+    public $idData;
+    public $idProfil;
+
+    public $email;
+    public $nama;
+    public $roles;
+    public $rolesText;
+
+    public $status;
+    public $statusText;
+
+    public $tanggalBuat;
+    public $tanggalBuatText;
+    public $batasWaktu;
+    public $batasWaktuText;
+    public $kodeSesi;
+    public $kodeAkun;
+    private $_sesi = false;
+
+    public function __construct($config)
     {
-        return 'akun.akn_user';
+        if ($config instanceof Sesi) {
+            parent::__construct([]);
+            $this->_sesi = $config;
+            $this->id = $config->getAkun()->getUserid();
+            $this->idSesi = $config->getId();
+            $this->idData = $config->getAkun()->getIdPegawai();
+
+        }
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
+    public function fields()
     {
         return [
-            [['userid', 'username', 'password', 'id_pegawai'], 'required'],
-            [['userid'], 'integer'],
-            [['role'], 'string'],
-            [['username', 'password'], 'string', 'max' => 255],
-            [['nama', 'email'], 'string', 'max' => 35],
-            [['telepon'], 'string', 'max' => 20]
+            'id' => function () {
+                return $this->getId();
+            },
+            'idSesi' => function () {
+                return $this->getIdSesi();
+            },
+            'idData' => function () {
+                return $this->getIdData();
+            },
+            'idProfil' => function () {
+                return $this->getIdProfil();
+            },
+
+            'email' => function () {
+                return $this->getEmail();
+            },
+            'nama' => function () {
+                return $this->getNama();
+            },
+            'roles' => function () {
+                return $this->roles;
+            },
+            'rolesText' => function () {
+                return $this->getRolesText();
+            },
+            'status' => function () {
+                return $this->getStatus();
+            },
+            'statusText' => function () {
+                return $this->getStatusText();
+            },
+            'tanggalBuat' => function () {
+                return $this->getTanggalBuat();
+            },
+            'tanggalBuatText' => function () {
+                return $this->getTanggalBuatText();
+            },
+            'batasWaktu' => function () {
+                return $this->getBatasWaktu();
+            },
+            'batasWaktuText' => function () {
+                return $this->getBatasWaktuText();
+            },
+            'kodeSesi' => function () {
+                return $this->getKodeSesi();
+            },
+            'kodeAkun' => function () {
+                return $this->getKodeAkun();
+            },
         ];
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'userid' => Yii::t('app', 'user ID'),
-            'username' => Yii::t('app', 'Username'),
-            'password' => Yii::t('app', 'Password'),
-            'id_pegawai' => Yii::t('app', 'Kode Pegawai'),
-            'email' => Yii::t('app', 'Email'),
-            'telepon' => Yii::t('app', 'Telepon'),
-            'role' => Yii::t('app', 'Role'),
-        ];
-    }
-
 
     /**
      * @inheritdoc
@@ -116,179 +151,17 @@ class Identitas extends Model implements IdentityInterface
         }
     }
 
-
-    /**
-     * @inheritdoc
-     */
     public function getId()
     {
-        return $this->userid;
+        // TODO: Implement getId() method.
     }
-
-    private $_sesi = false;
-
-    public $kodeSesi;
-
-    /**
-     * @return mixed
-     */
-    public function getKodeSesi()
-    {
-        return $this->kodeSesi;
-    }
-
-    /**
-     * @param mixed $kodeSesi
-     */
-    public function setKodeSesi($kodeSesi)
-    {
-        $this->kodeSesi = $kodeSesi;
-    }
-
-    public function __construct($config = [])
-    {
-
-        if ($config instanceof Sesi) {
-            parent::__construct($config);
-
-        }
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserid()
-    {
-        return $this->userid;
-    }
-
-    /**
-     * @param int $userid
-     */
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @param string $username
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNama()
-    {
-        return $this->nama;
-    }
-
-    /**
-     * @param string $nama
-     */
-    public function setNama($nama)
-    {
-        $this->nama = $nama;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTelepon()
-    {
-        return $this->telepon;
-    }
-
-    /**
-     * @param string $telepon
-     */
-    public function setTelepon($telepon)
-    {
-        $this->telepon = $telepon;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * @param string $role
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-    }
-
-    /**
-     * @return TbPegawai
-     */
-    public function getIdPegawai()
-    {
-        return $this->id_pegawai;
-    }
-
-    /**
-     * @param TbPegawai $id_pegawai
-     */
-    public function setIdPegawai($id_pegawai)
-    {
-        $this->id_pegawai = $id_pegawai;
-    }
-
 
     /**
      * @inheritdoc
      */
     public function getAuthKey()
     {
-//        return self::findOne(['userid' => $this->getId()]);
+        return $this->getKodeSesi();
     }
 
     /**
@@ -314,5 +187,260 @@ class Identitas extends Model implements IdentityInterface
      * @return \yii\db\ActiveQuery
      */
 
+    /**
+     * @return mixed
+     */
+    public function getIdSesi()
+    {
+        return $this->idSesi;
+    }
+
+    /**
+     * @param mixed $idSesi
+     */
+    public function setIdSesi($idSesi)
+    {
+        $this->idSesi = $idSesi;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdData()
+    {
+        return $this->idData;
+    }
+
+    /**
+     * @param mixed $idData
+     */
+    public function setIdData($idData)
+    {
+        $this->idData = $idData;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdProfil()
+    {
+        return $this->idProfil;
+    }
+
+    /**
+     * @param mixed $idProfil
+     */
+    public function setIdProfil($idProfil)
+    {
+        $this->idProfil = $idProfil;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNama()
+    {
+        return $this->nama;
+    }
+
+    /**
+     * @param mixed $nama
+     */
+    public function setNama($nama)
+    {
+        $this->nama = $nama;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRolesText()
+    {
+        return $this->rolesText;
+    }
+
+    /**
+     * @param mixed $rolesText
+     */
+    public function setRolesText($rolesText)
+    {
+        $this->rolesText = $rolesText;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusText()
+    {
+        return $this->statusText;
+    }
+
+    /**
+     * @param mixed $statusText
+     */
+    public function setStatusText($statusText)
+    {
+        $this->statusText = $statusText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTanggalBuat()
+    {
+        return $this->tanggalBuat;
+    }
+
+    /**
+     * @param mixed $tanggalBuat
+     */
+    public function setTanggalBuat($tanggalBuat)
+    {
+        $this->tanggalBuat = $tanggalBuat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTanggalBuatText()
+    {
+        return $this->tanggalBuatText;
+    }
+
+    /**
+     * @param mixed $tanggalBuatText
+     */
+    public function setTanggalBuatText($tanggalBuatText)
+    {
+        $this->tanggalBuatText = $tanggalBuatText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBatasWaktu()
+    {
+        return $this->batasWaktu;
+    }
+
+    /**
+     * @param mixed $batasWaktu
+     */
+    public function setBatasWaktu($batasWaktu)
+    {
+        $this->batasWaktu = $batasWaktu;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBatasWaktuText()
+    {
+        return $this->batasWaktuText;
+    }
+
+    /**
+     * @param mixed $batasWaktuText
+     */
+    public function setBatasWaktuText($batasWaktuText)
+    {
+        $this->batasWaktuText = $batasWaktuText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKodeSesi()
+    {
+        return $this->kodeSesi;
+    }
+
+    /**
+     * @param mixed $kodeSesi
+     */
+    public function setKodeSesi($kodeSesi)
+    {
+        $this->kodeSesi = $kodeSesi;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKodeAkun()
+    {
+        return $this->kodeAkun;
+    }
+
+    /**
+     * @param mixed $kodeAkun
+     */
+    public function setKodeAkun($kodeAkun)
+    {
+        $this->kodeAkun = $kodeAkun;
+    }
+
+    public function getSesi()
+    {
+        return $this->_sesi;
+    }
+
+    public function getAkun()
+    {
+        $sesi = $this->getSesi();
+        if (is_null($sesi)) {
+            return null;
+        } else {
+            return $sesi->getAkun();
+        }
+    }
 
 }
