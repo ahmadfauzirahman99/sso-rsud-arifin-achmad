@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\AkunAknUser;
 use app\models\LoginForm;
+use app\models\Sesi;
 use yii\web\Controller;
 use Yii;
 
@@ -12,6 +14,11 @@ class MasukController extends Controller
 
     public function actionIndex()
     {
+//
+//        $s = md5("rsud123");
+//        var_dump($s);
+//        exit();
+
         if (!Yii::$app->user->isGuest) {
             return $this->goBack();
         }
@@ -25,17 +32,25 @@ class MasukController extends Controller
             $form = new LoginForm();
             $form->attributes = $a;
 
+//            var_dump($form->login());
+//            exit();
             if (!$form->login()) {
-                echo  'asdsada';
-            }else{
-                echo  "asdasdasdadad";
+                $this->layout = 'main-login';
+                Yii::$app->session->setFlash('warning', $form->getErrors());
+                return $this->render('index');
+//                echo  'asdsada';
+            } else {
+//                echo 'sadasda';
+//                exit();
+                return $this->redirect(['site/index']);
             }
 
         } else {
+            $this->layout = 'main-login';
             return $this->render('index');
         }
-
-
     }
+
+
 
 }

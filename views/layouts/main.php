@@ -55,17 +55,17 @@ use app\assets\AppAsset;
                                 data-feather="message-square"></i></a>
                     <a href="" class="new" data-toggle="tooltip" title="You have 4 new notifications"><i
                                 data-feather="bell"></i></a>
-                    <a href="<?= Yii::$app->urlManager->createUrl('masuk/index') ?>" data-toggle="tooltip"
+                    <a href="#global-logout-modal" data-toggle="modal"
                        title="Sign out"><i data-feather="log-out"></i></a>
                 </div>
             </div>
             <div class="aside-loggedin-user">
                 <a href="#loggedinMenu" class="d-flex align-items-center justify-content-between mg-b-2"
                    data-toggle="collapse">
-                    <h6 class="tx-semibold mg-b-0">Ahmad Fauzi Rahman</h6>
+                    <h6 class="tx-semibold mg-b-0"><?= Yii::$app->user->identity->nama ?></h6>
                     <i data-feather="chevron-down"></i>
                 </a>
-                <p class="tx-color-03 tx-12 mg-b-0">Administrator</p>
+                <p class="tx-color-03 tx-12 mg-b-0"><?= Yii::$app->user->identity->roles ?></p>
             </div>
             <div class="collapse" id="loggedinMenu">
                 <ul class="nav nav-aside mg-b-0">
@@ -73,7 +73,8 @@ use app\assets\AppAsset;
                             <span>Edit Profile</span></a></li>
                     <li class="nav-item"><a href="" class="nav-link"><i data-feather="user"></i>
                             <span>View Profile</span></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i data-feather="log-out"></i>
+                    <li class="nav-item"><a href="#global-logout-modal" data-toggle="modal" class="nav-link"><i
+                                    data-feather="log-out"></i>
                             <span>Sign Out</span></a></li>
                 </ul>
             </div>
@@ -107,6 +108,30 @@ use app\assets\AppAsset;
         </div>
     </div><!-- content-body -->
 </div><!-- content -->
+
+
+<!--modal logout-->
+<div class="modal fade" id="global-logout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel2">Logout :(</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="mg-b-0">Apakah Anda Yakin Ingin Keluar Dari Aplikasi?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Nggak Jadi Cuy</button>
+                <a href="<?= \yii\helpers\Url::to(['/keluar/index']) ?>" class="btn btn-primary tx-13">Ya, Yakin!</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php $this->endBody() ?>
 </body>
 

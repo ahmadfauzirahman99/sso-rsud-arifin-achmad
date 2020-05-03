@@ -15,17 +15,34 @@ use app\models\ContactForm;
 class SiteController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
-        $this->layout = Auth::getRole();
-        return Auth::behaviors([
-            'deny' => function ($rule, $action) {
-                $this->redirect(['masuk/index']);
-            },
-        ]);
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -50,7 +67,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $aplikasi = Aplikasi::find()->all();
+        $aplikasi = Aplikasi::find()->orderBy('id DESC')->all();
         return $this->render('index', ['aplikasi' => $aplikasi]);
     }
 
