@@ -41,6 +41,8 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $akun = $this->getUser();
+//            var_dump($akun);
+//            exit();
             if (is_null($akun)) {
                 $this->addError('o', 'Kode akun / NIP / NIK / NIM atau kata sandi tidak sesuai. Atau pilih Lupa Kata Sandi yang ada di bawah.');
             } elseif (!$this->isKataSandiValid()) {
@@ -52,7 +54,7 @@ class LoginForm extends Model
 
     public function login()
     {
-        if ($this->validate()) {
+        if (!$this->validate()) {
             return false;
         } else {
             $akun = $this->getUser();
@@ -73,7 +75,6 @@ class LoginForm extends Model
             } else {
                 $this->generateShared();
                 return Yii::$app->user->login(new Identitas($sesi), $durasi);
-
             }
         }
     }
@@ -111,8 +112,12 @@ class LoginForm extends Model
     public function isKataSandiValid()
     {
         try {
-            $kts = md5($this->kataSandi);
-            return $kts == $this->kataSandi;
+
+            if (md5($this->kataSandi) == $this->getUser()->getPassword()) {
+                return true;
+            }
+//            $kts = md5($this->kataSandi);
+//            return $kts == $this->kataSandi;
         } catch (InvalidParamException $exception) {
             return false;
         }
