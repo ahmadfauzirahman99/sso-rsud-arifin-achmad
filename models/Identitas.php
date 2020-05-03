@@ -15,8 +15,8 @@ class Identitas extends Model implements IdentityInterface
     public $idSesi;
     public $idData;
     public $idProfil;
+    public $idProfilR;
 
-    public $email;
     public $nama;
     public $roles;
     public $rolesText;
@@ -37,9 +37,25 @@ class Identitas extends Model implements IdentityInterface
         if ($config instanceof Sesi) {
             parent::__construct([]);
             $this->_sesi = $config;
+//            var_dump($config->getAkun()->getUserid());
+//            exit();
+            $this->idProfilR = $config->getAkun()->getUserid();
             $this->id = $config->getAkun()->getUserid();
             $this->idSesi = $config->getId();
             $this->idData = $config->getAkun()->getIdPegawai();
+            $this->idProfil = $config->getAkun()->getIdPegawai();
+            $this->nama = $config->getAkun()->getNama();
+            $this->roles = $config->getAkun()->getRole();
+            $this->status = $config->getAkun()->getStatus();
+            $this->tanggalBuat = $config->getAkun()->getTanggalPendaftaran();
+            $this->batasWaktu = $config->getBatasSesi();
+            $this->kodeSesi = $config->getKodeSesi();
+            $this->kodeAkun = $config->getAkun()->getUsername();
+        } elseif (is_array($config)) {
+            $this->_sesi = null;
+            parent::__construct($config);
+        } else {
+            $this->_sesi = null;
 
         }
     }
@@ -58,10 +74,6 @@ class Identitas extends Model implements IdentityInterface
             },
             'idProfil' => function () {
                 return $this->getIdProfil();
-            },
-
-            'email' => function () {
-                return $this->getEmail();
             },
             'nama' => function () {
                 return $this->getNama();
@@ -99,12 +111,8 @@ class Identitas extends Model implements IdentityInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
-
         $sesi = Sesi::find()->
         where([
             'ida' => $id,
@@ -114,7 +122,8 @@ class Identitas extends Model implements IdentityInterface
         ])->orderBy('tgb DESC')
             ->limit(1)
             ->one();
-
+//        var_dump($sesi);
+//        exit();
         if (is_null($sesi)) {
             Yii::$app->session->setFlash('warning', 'Sesi tidak ditemukan.');
             Yii::$app->user->logout(true);
@@ -154,6 +163,7 @@ class Identitas extends Model implements IdentityInterface
     public function getId()
     {
         // TODO: Implement getId() method.
+        return $this->id;
     }
 
     /**
@@ -233,22 +243,6 @@ class Identitas extends Model implements IdentityInterface
     public function setIdProfil($idProfil)
     {
         $this->idProfil = $idProfil;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
     }
 
     /**
