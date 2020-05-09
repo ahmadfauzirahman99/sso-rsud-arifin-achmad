@@ -10,27 +10,34 @@ use yii\bootstrap\ActiveForm;
 /* @var $model \app\models\LoginForm */
 
 ?>
+    <style>
+        .website-logo .logo {
+            background-image: url("<?= Yii::$app->request->baseUrl ?>/img/logo_rsud.png");
+        }
+
+        .img-holder {
+            width: 550px;
+            background: linear-gradient(to bottom, #99ff99 0%, #ff99cc 100%) !important;
+        }
+    </style>
     <div class="form-body" class="container-fluid" style="font-family: 'Roboto', sans-serif !important;">
-        <div class="website-logo">
-            <a href="index.html">
-                <div class="logo">
-                    <img class="logo-size" src="<?= Yii::$app->request->baseUrl ?>/login-theme/images/logo-light.svg"
-                         alt="">
-                </div>
-            </a>
-        </div>
         <div class="row">
             <div class="img-holder">
                 <div class="bg"></div>
                 <div class="info-holder">
 
-                    <img src="<?= Yii::$app->request->baseUrl ?>/login-theme/images/graphic1.svg" alt="">
+                    <img src="<?= Yii::$app->request->baseUrl ?>/img/banner-1.png" alt="">
                 </div>
             </div>
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
-                        <h3>Aplikasi E-Medical</h3>
+                        <img src="<?= Yii::$app->request->baseUrl ?>/img/logo_rsud.png" height="100px" alt="">
+                        <img src="<?= Yii::$app->request->baseUrl ?>/img/logo_riau.png" height="100px" alt=""> &nbsp;&nbsp;
+                        <img src="<?= Yii::$app->request->baseUrl ?>/img/logo_kars.png" height="100px" alt="">
+                        <br>
+                        <br>
+                        <h3>Sistem Informasi Manajemen Rumah Sakit</h3>
                         <p><?= \app\widgets\Alert::widget() ?>
                         </p>
 
