@@ -13,5 +13,9 @@ return [
     'akun.masa.aktifasi' => (60 * 60 * 24 * 7), // 7 Hari
     'akun.masa.reset' => (60 * 60 * 24 * 2), // 2 Hari
     'akun.panjang.reset' => 6, // 6 Karakter
+
+    'shared.cookie.name' => '__rsudaa-shared',
+    'shared.cookie.domain' => 'rsud-arifin.localhost',
+    'shared.session.name' => '__rsudaa-shared',
 //    'foto-default'
 ];

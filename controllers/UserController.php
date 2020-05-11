@@ -28,7 +28,7 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','create','get-pegawai','view','update'],
                         'allow' => true,
                     ],
                     [

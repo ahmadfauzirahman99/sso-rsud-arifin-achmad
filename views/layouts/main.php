@@ -149,13 +149,13 @@ use app\assets\AppAsset;
         }).then((result) => {
             if (result.value) {
                 okCallback()
-                // console.log(okCallback);
+                console.log(okCallback);
 
-                // Swal.fire(
-                //     'Deleted!',
-                //     'Your file has been deleted.',
-                //     'success'
-                // )
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
             }
         })
     };

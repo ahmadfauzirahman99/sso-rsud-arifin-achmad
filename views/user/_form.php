@@ -70,7 +70,8 @@ $JS = <<< JS
       var akun = $(this).val();
       $.get('get-pegawai',{id:akun},function(data) {
         // akunaknuser-username
-        $("#akunaknuser-username").attr('value',data.results.nip);
+        console.log(data);
+        $("#akunaknuser-username").attr('value',data.results.id_nip_nrp);
         // akunaknuser-nama
         $("#akunaknuser-nama").attr('value',data.results.nama_lengkap)
       },'JSON');

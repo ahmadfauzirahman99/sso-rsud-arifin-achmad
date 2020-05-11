@@ -29,7 +29,7 @@ class LoginForm extends Model
     {
         return [
             // kodeAkun and password are both required
-            [['kodeAkun', 'kataSandi'], 'required', 'message' => 'Masukkan kode akun / NIP / NIK / NIM dan kata sandi terlebih dahulu.'],
+            [['kodeAkun', 'kataSandi'], 'required', 'message' => 'Masukkan kode akun / NIP / NIK  dan kata sandi terlebih dahulu.'],
             // rememberMe must be a boolean value
             ['ingat', 'boolean'],
             // password is validated by validatePassword()
@@ -116,8 +116,6 @@ class LoginForm extends Model
             if (md5($this->kataSandi) == $this->getUser()->getPassword()) {
                 return true;
             }
-//            $kts = md5($this->kataSandi);
-//            return $kts == $this->kataSandi;
         } catch (InvalidParamException $exception) {
             return false;
         }

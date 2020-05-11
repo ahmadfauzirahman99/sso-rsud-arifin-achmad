@@ -113,6 +113,7 @@ class Identitas extends Model implements IdentityInterface
 
     public static function findIdentity($id)
     {
+//        echo '<pre>';
         $sesi = Sesi::find()->
         where([
             'ida' => $id,

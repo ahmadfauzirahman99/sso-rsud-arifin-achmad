@@ -12,6 +12,8 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'homeUrl' => ['site/index'],
+
     'components' => [
         'formatter' => [
             'dateFormat' => 'php:d-m-Y',
@@ -38,9 +40,12 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'app\models\User',
             'identityClass' => 'app\models\Identitas',
             'enableAutoLogin' => true,
-            'loginUrl' => ['masuk/index']
+            'loginUrl' => ['masuk/index'],
+            'identityCookie' => ['name' => '_identity-id', 'httpOnly' => true, 'domain' => 'rsud-arifin.localhost'],
+
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = 'Hi!';
+$this->title = 'Hi! Selamat Datang';
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -19,6 +19,7 @@ use yii\bootstrap\ActiveForm;
             width: 550px;
             background: linear-gradient(to bottom, #99ff99 0%, #ff99cc 100%) !important;
         }
+
     </style>
     <div class="form-body" class="container-fluid" style="font-family: 'Roboto', sans-serif !important;">
         <div class="row">
@@ -35,8 +36,7 @@ use yii\bootstrap\ActiveForm;
                         <img src="<?= Yii::$app->request->baseUrl ?>/img/logo_rsud.png" height="100px" alt="">
                         <img src="<?= Yii::$app->request->baseUrl ?>/img/logo_riau.png" height="100px" alt=""> &nbsp;&nbsp;
                         <img src="<?= Yii::$app->request->baseUrl ?>/img/logo_kars.png" height="100px" alt="">
-                        <br>
-                        <br>
+                        <hr>
                         <h3>Sistem Informasi Manajemen Rumah Sakit</h3>
                         <p><?= \app\widgets\Alert::widget() ?>
                         </p>

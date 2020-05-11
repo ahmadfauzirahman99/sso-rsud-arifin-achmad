@@ -20,6 +20,9 @@ use Yii;
  */
 class AkunAknUser extends \yii\db\ActiveRecord
 {
+
+    private $_pegawai = false;
+
     /**
      * @return int
      */
