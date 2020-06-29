@@ -30,6 +30,7 @@ class Identitas extends Model implements IdentityInterface
     public $batasWaktuText;
     public $kodeSesi;
     public $kodeAkun;
+    public $foto;
     private $_sesi = false;
 
     public function __construct($config)

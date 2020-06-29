@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\components\Auth;
+use app\components\HelperSso;
+use app\components\TipeAkun;
 use app\models\Aplikasi;
 use Yii;
 use yii\filters\AccessControl;
@@ -28,7 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','create','update','view','delete'],
+                        'actions' => ['logout', 'index', 'create', 'update', 'view', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -67,9 +69,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $aplikasi = Aplikasi::find()->orderBy('id DESC')->all();
-        return $this->render('index', ['aplikasi' => $aplikasi]);
+
+        $hak = Yii::$app->user->identity->getRoles();
+        $id = Yii::$app->user->identity->getId();
+//        echo '<pre>';
+        $aplikasi = Aplikasi::find()->where(['in', 'inf', TipeAkun::HakAkses[$hak]])->all();
+        $pegawaiSaya = HelperSso::getDataPegawaiByNip(Yii::$app->user->identity->getKodeAkun());
+//        var_dump($pegawaiSaya);
+        $log = HelperSso::getLogLogin($id);
+        return $this->render('index', [
+            'aplikasi' => $aplikasi,
+            'pegawai' => $pegawaiSaya,
+            'log' => $log
+        ]);
     }
+
 
     /**
      * Login action.

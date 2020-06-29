@@ -17,6 +17,7 @@ use Yii;
  * @property string|null $role enum('root','pegawai','dokter')
  * @property string|null $token_aktivasi
  * @property int|null $status 0 = pending  1 = aktif 2 = non aktif
+ * @property int|null $foto
  */
 class AkunAknUser extends \yii\db\ActiveRecord
 {
@@ -240,6 +241,22 @@ class AkunAknUser extends \yii\db\ActiveRecord
     public function isSedangDiblokir()
     {
         return $this->sta == StatusAkun::BLOKIR;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * @param int|null $foto
+     */
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
     }
 
 }

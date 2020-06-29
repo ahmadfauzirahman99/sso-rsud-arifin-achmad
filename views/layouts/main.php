@@ -51,10 +51,6 @@ use app\assets\AppAsset;
                 <a href="" class="avatar"><img src="<?= Yii::$app->request->baseUrl ?>/img/user1_128.png"
                                                class="rounded-circle" alt=""></a>
                 <div class="aside-alert-link">
-                    <a href="" class="new" data-toggle="tooltip" title="You have 2 unread messages"><i
-                                data-feather="message-square"></i></a>
-                    <a href="" class="new" data-toggle="tooltip" title="You have 4 new notifications"><i
-                                data-feather="bell"></i></a>
                     <a href="#global-logout-modal" data-toggle="modal"
                        title="Sign out"><i data-feather="log-out"></i></a>
                 </div>
@@ -71,8 +67,6 @@ use app\assets\AppAsset;
                 <ul class="nav nav-aside mg-b-0">
                     <li class="nav-item"><a href="" class="nav-link"><i data-feather="edit"></i>
                             <span>Edit Profile</span></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i data-feather="user"></i>
-                            <span>View Profile</span></a></li>
                     <li class="nav-item"><a href="#global-logout-modal" data-toggle="modal" class="nav-link"><i
                                     data-feather="log-out"></i>
                             <span>Sign Out</span></a></li>
