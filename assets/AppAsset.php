@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
         "lib/@fortawesome/fontawesome-free/css/all.min.css",
         "lib/ionicons/css/ionicons.min.css",
         "lib/typicons.font/typicons.css",
+        "css/pe-icon-7.css",
 
 //     DashForge CSS
         "assets/css/dashforge.css",
@@ -27,6 +28,7 @@ class AppAsset extends AssetBundle
     public $js = [
 //        "lib/jquery/jquery.min.js",
         "lib/bootstrap/js/bootstrap.bundle.min.js",
+        "js/bootstrap-notify.js",
         "lib/feather-icons/feather.min.js",
         "lib/perfect-scrollbar/perfect-scrollbar.min.js",
 

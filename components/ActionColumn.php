@@ -23,6 +23,10 @@ class ActionColumn extends \yii\grid\ActionColumn
         'style' => 'min-width: 140px; text-align: center;'
     ];
 
+    public $options = [
+        'options' => ['style' => 'text-align: center'],
+    ];
+
     protected function initDefaultButtons()
     {
         $this->initDefaultButton('view', 'zoom-in-outline');

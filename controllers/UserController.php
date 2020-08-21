@@ -28,7 +28,7 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','create','get-pegawai','view','update'],
+                        'actions' => ['login', 'error', 'create', 'get-pegawai', 'view', 'update', 'delete', 'reset-password'],
                         'allow' => true,
                     ],
                     [
@@ -123,8 +123,12 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        // var_dump(md5($model->getPassword()));
+        // exit();
+        if ($model->load(Yii::$app->request->post())) {
+//            $password = md5($model->getPassword());
+//            $model->setPassword($password);
+            $model->save();
             return $this->redirect(['view', 'id' => $model->userid]);
         } else {
             return $this->render('update', [
@@ -150,11 +154,19 @@ class UserController extends Controller
     public function actionGetPegawai($id)
     {
         $data = TbPegawai::find()->where(['pegawai_id' => $id])->one();
-//        var_dump($data);
-//        var_dump($id);
-//        exit();
         return $this->writeResponse(true, "Berhasil", $data);
-//        echo Json::encode($data);
+    }
+
+    public function actionResetPassword($id, $y)
+    {
+        $model = $this->findModel($id);
+        $model->password = md5($y);
+        $model->save();
+
+        if ($model->save()) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+            return $this->redirect(['user/index']);
+        }
     }
 
     /**

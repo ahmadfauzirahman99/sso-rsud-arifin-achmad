@@ -15,7 +15,7 @@ class MasukController extends Controller
     public function actionIndex()
     {
 //
-//        $s = md5("rsud123");
+//        $s = md5(123456789);
 //        var_dump($s);
 //        exit();
 

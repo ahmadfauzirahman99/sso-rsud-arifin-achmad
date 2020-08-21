@@ -34,9 +34,12 @@ $dataPegawai = HelperSso::getDataPegawai();
                 <div class="col-lg-12">
                     <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama Lengkap']) ?>
                 </div>
-                <div class="col-lg-12">
-                    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true, 'placeholder' => 'Password']) ?>
-                </div>
+                <?php if ($model->isNewRecord): ?>
+                    <div class="col-lg-12">
+                        <?= $form->field($model, 'password')->passwordInput(['maxlength' => true, 'placeholder' => 'Password']) ?>
+                    </div>
+                <?php endif; ?>
+
             </div>
 
 

@@ -36,10 +36,22 @@ $this->title = 'Dashboard';
                                     <span class="tx-color-01"><b><?= Yii::$app->user->identity->getKodeAkun() ?></b></span>
                                 </p>
                             </div>
-                            <a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changefoto"
-                               class="btn btn-outline-info">Change Foto</a>
+
 
                         </div><!-- media -->
+                        <hr class="mg-y-25">
+
+                        <did class="row">
+                            <div class="col-lg-12">
+                                <a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changefoto"
+                                   class="btn btn-block btn-outline-info">Change Foto <span class="fa fa-image"></span></a>
+                            </div>
+                            <div class="col-lg-12 mg-y-25">
+                                <a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changepassword"
+                                   class="btn btn-block btn-outline-warning">Change Password <span
+                                            class="fa fa-lock"></span></a>
+                            </div>
+                        </did>
                         <hr class="mg-y-25">
                         <h5 class="text-center">Data Profil Diri Saya</h5>
                         <span class="mr-lg-2"></span>
@@ -155,14 +167,122 @@ $this->title = 'Dashboard';
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content tx-14">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="changepasswordTitle">Modal Title</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="ubahpassword" id="ubahpassword">
+                    <div class="modal-body">
+                        <div class="input-group mg-b-10">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><span class="fa fa-lock"></span></span>
+                            </div>
+                            <input type="password" class="form-control" name="passwordBaru" id="passwordBaru"
+                                   placeholder="Password Baru"
+                                   aria-label="Password Baru"
+                                   aria-describedby="PasswordBaru">
+                        </div>
+                        <div class="input-group mg-b-10">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><span class="fa fa-lock"></span></span>
+                            </div>
+                            <input type="password" class="form-control" name="konfirmasiPasswordBaru"
+                                   id="konfirmasiPasswordBaru"
+                                   placeholder="Konfirmasi Password Baru"
+                                   aria-label="Konfirmasi"
+                                   aria-describedby="KonfirmasiPasswordBaru">
+                        </div>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Show Password</label>
+                        </div>
+                        <input type="hidden" name="<?= Yii::$app->request->csrfParam ?>"
+                               value="<?= Yii::$app->request->csrfToken ?>">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary tx-13">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 <?php
 $JS = <<< JS
   $(document).ready(function() {
+
+      // change foto
     $('#changefoto').on('click',function() {
         $("#exampleModalLabel2").html("<i class='typcn typcn-pencil'></i> &nbsp;Change Foto")
         $("#modal2").modal('show');
+    });
+    
+    
+    // change password
+    $("#changepassword").on('click',function() {
+        $("#changepasswordTitle").html("<i class='typcn typcn-pencil'></i> &nbsp;Change Password")
+        $("#modalPassword").modal('show');
     })
+   
+   $("#ubahpassword").on("submit", function (e) {
+        e.preventDefault();
+        onSavePassword(this, e);
+   });
+    
+    $("#customSwitch1").on('click',function() {
+     var x = document.getElementById("passwordBaru");
+     var y = document.getElementById("konfirmasiPasswordBaru");
+      if (x.type === "password" || y.type === "password") {
+        x.type = "text";
+        y.type = "text";
+      } else {
+        x.type = "password";
+        y.type = "password";
+      }
+   })
+   
   })
+  
+  function onSavePassword() {
+    var data = $("#ubahpassword").serialize();
+    console.log(data)
+    $.post("api-sso/change-password", data, function (response) {
+        console.log(response);
+        if (response.con) {
+            showNotification(true, response.msg);
+           console.log(response.con) 
+            $("#modalPassword").modal("hide");
+            
+              setTimeout(function(){ 
+                location.reload();
+              }, 3000);
+
+        } else {
+            showNotification(false, response.msg);
+            console.log(response.con)
+             $("#modalPassword").modal("hide");
+            
+        }
+    }, 'JSON')
+    function showNotification(con, msg, icon) {
+        $.notify({
+            icon: (icon === undefined) ? (con ? "pe-7s-loop" : "pe-7s-attention") : icon,
+            message: (con == true ? "<b>Berhasil...</b>" : "<b>Oops...</b>") + "<br/>" + msg
+        }, {
+            type: (con == true ? "success" : "warning"),
+            timer: 3000
+        });
+    }
+}
 JS;
 $this->registerJs($JS);
 $this->registerJs($this->render('upload.js'));
