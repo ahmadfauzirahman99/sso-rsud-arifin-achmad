@@ -183,6 +183,7 @@ class AkunAknUser extends \yii\db\ActiveRecord
     {
         return [
             [['id_pegawai', 'username', 'password'], 'required'],
+            [['username'], 'unique'],
             [['id_pegawai', 'status'], 'default', 'value' => null],
             [['id_pegawai', 'status'], 'integer'],
             [['tanggal_pendaftaran'], 'safe'],

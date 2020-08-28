@@ -31,7 +31,7 @@ class SiteController extends Controller
 						'allow' => true,
 					],
 					[
-						'actions' => ['logout', 'index', 'create', 'update', 'view', 'delete'],
+						'actions' => ['logout', 'index', 'create', 'update', 'view', 'delete','about'],
 						'allow' => true,
 						'roles' => ['@'],
 					],

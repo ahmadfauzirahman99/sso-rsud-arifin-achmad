@@ -8,11 +8,15 @@ $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
+	<h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        This is the About page. You may modify the following file to customize its content:
-    </p>
+	<input type="date" id="date" class="form-control">
 
-    <code><?= __FILE__ ?></code>
+	<hr>
+	<a href="#" onclick="prints()">Print</a>
 </div>
+
+<?php
+
+$this->registerJs($this);
+?>
