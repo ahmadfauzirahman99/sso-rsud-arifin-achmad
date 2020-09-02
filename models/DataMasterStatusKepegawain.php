@@ -17,7 +17,7 @@ class DataMasterStatusKepegawain extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'sip.dm_status_kepegawaian';
+        return 'pegawai.dm_status_kepegawaian';
     }
 
     /**

@@ -15,7 +15,7 @@ return [
     'akun.panjang.reset' => 6, // 6 Karakter
 
     'shared.cookie.name' => '__rsudaa-shared',
-    'shared.cookie.domain' => 'rsud-arifin.localhost',
+    'shared.cookie.domain' => 'rsud-arifin.deku',
     'shared.session.name' => '__rsudaa-shared',
 //    'foto-default'
 ];

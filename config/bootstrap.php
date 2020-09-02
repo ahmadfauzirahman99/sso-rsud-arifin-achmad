@@ -1,10 +1,10 @@
 <?php
-Yii::setAlias('@.sso', 'http://sso.rsud-arifin.localhost');
-Yii::setAlias('@.inap', 'http://inap.rsud-arifin.localhost');
-Yii::setAlias('@.jalan', 'http://jalan.rsud-arifin.localhost');
-Yii::setAlias('@.akuntansi', 'http://akuntansi.rsud-arifin.localhost');
-Yii::setAlias('@.farmasi', 'http://farmasi.rsud-arifin.localhost');
-Yii::setAlias('@.pegawai', 'http://pegawai.rsud-arifin.localhost');
-Yii::setAlias('@.dashboard', 'http://dashboard.rsud-arifin.localhost');
-Yii::setAlias('@.gizi', 'http://gizi.rsud-arifin.localhost');
-Yii::setAlias('@.pendaftaran', 'http://pendaftaran.rsud-arifin.localhost');
+Yii::setAlias('@.sso', 'http://sso.simrs.deku');
+Yii::setAlias('@.inap', 'http://inap.simrs.deku');
+Yii::setAlias('@.jalan', 'http://jalan.simrs.deku');
+Yii::setAlias('@.akuntansi', 'http://akuntansi.simrs.deku');
+Yii::setAlias('@.farmasi', 'http://farmasi.simrs.deku');
+Yii::setAlias('@.pegawai', 'http://pegawai.simrs.deku');
+Yii::setAlias('@.dashboard', 'http://dashboard.simrs.deku');
+Yii::setAlias('@.gizi', 'http://gizi.simrs.deku');
+Yii::setAlias('@.pendaftaran', 'http://pendaftaran.simrs.deku');

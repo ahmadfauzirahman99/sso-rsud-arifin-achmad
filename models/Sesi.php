@@ -214,7 +214,7 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'akun.akn_session';
+        return 'sso.akn_session';
     }
 
     public function isKeluar()

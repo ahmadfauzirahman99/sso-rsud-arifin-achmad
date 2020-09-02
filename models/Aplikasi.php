@@ -185,7 +185,7 @@ class Aplikasi extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'akun.akn_app';
+        return 'sso.akn_app';
     }
 
     public function beforeSave($insert)

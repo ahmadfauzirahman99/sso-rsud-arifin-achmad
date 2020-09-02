@@ -26,7 +26,7 @@ class RiwayatPenempatan extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'sip.tb_riwayat_penempatan';
+        return 'pegawai.tb_riwayat_penempatan';
     }
 
     /**

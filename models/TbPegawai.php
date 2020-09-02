@@ -77,7 +77,7 @@ class TbPegawai extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'sip.tb_pegawai';
+        return 'pegawai.tb_pegawai';
     }
 
     /**

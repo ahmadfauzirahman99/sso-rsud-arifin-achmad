@@ -44,7 +44,7 @@ $config = [
             'identityClass' => 'app\models\Identitas',
             'enableAutoLogin' => true,
             'loginUrl' => ['masuk/index'],
-            'identityCookie' => ['name' => '_identity-id', 'httpOnly' => true, 'domain' => 'rsud-arifin.localhost'],
+            'identityCookie' => ['name' => '_identity-id', 'httpOnly' => true, 'domain' => 'simrs.deku'],
 
         ],
         'errorHandler' => [

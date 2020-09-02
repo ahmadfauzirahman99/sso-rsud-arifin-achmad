@@ -173,7 +173,7 @@ class AkunAknUser extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'akun.akn_user';
+        return 'sso.akn_user';
     }
 
     /**
