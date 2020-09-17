@@ -29,11 +29,7 @@ class ApiSsoController extends Controller
 
 	public function actionGetPegawai($id)
 	{
-		$data = TbPegawai::find();
-		$data->andFilterWhere(['or',
-			['ilike', 'nama_lengkap', $id],
-			['ilike', 'id_nip_nrp', $id]]
-		)->all();
+		$data = TbPegawai::find()->where(['ilike','nama_lengkap',$id.'%',false])->all();
 
 		return $this->writeResponse(true, "Berhasil", $data);
 	}
@@ -43,7 +39,7 @@ class ApiSsoController extends Controller
 		$rq = Yii::$app->request;
 		$p = $rq->post();
 
-		if (Yii::$app->user->identity->getRoles() == 'NONMEDIS' || Yii::$app->user->identity->getRoles() == 'MEDIS') {
+		if (Yii::$app->user->identity->getRoles() == 'NONMEDIS' || Yii::$app->user->identity->getRoles() == 'MEDIS' || Yii::$app->user->identity->getRoles() == 'ROOT') {
 			$id = Yii::$app->user->identity->getId();
 			$passwordBaru = $p['passwordBaru'];
 			$konfirmasiPasswordBaru = $p['konfirmasiPasswordBaru'];
