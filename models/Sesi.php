@@ -66,6 +66,7 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public function setTanggalBuat($value = null)
     {
+        date_default_timezone_set('Asia/Jakarta');
         if (is_null($value)) {
             $this->tgb = date('Y-m-d H:i:s');
         } else {
@@ -86,6 +87,7 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public function setBatasSesi($durasi = 3600)
     {
+	date_default_timezone_set('Asia/Jakarta');
         if (!is_null($durasi) && is_numeric($durasi)) {
             $this->bts = date('Y-m-d H:i:s', strtotime('+' . $durasi . ' seconds'));
         } else {
@@ -214,7 +216,7 @@ class Sesi extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'akun.akn_session';
+        return 'sso.akn_session';
     }
 
     public function isKeluar()

@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:host=localhost;port=5432;dbname=rsud_id',
+    'dsn' => 'pgsql:host=localhost;port=5432;dbname=simrs',
 //    'dsn' => 'pgsql:host=192.168.254.21;port=5432;dbname=simrsfarmasiv2',
 
     'username' => 'postgres',

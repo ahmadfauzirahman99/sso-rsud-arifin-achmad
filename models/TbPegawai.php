@@ -77,16 +77,10 @@ class TbPegawai extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'sip.tb_pegawai';
+        return 'pegawai.tb_pegawai';
     }
 
-    /**
-     * @return \yii\db\Connection the database connection used by this AR class.
-     */
-    public static function getDb()
-    {
-        return Yii::$app->get('dbSimpeg');
-    }
+
 
     /**
      * {@inheritdoc}

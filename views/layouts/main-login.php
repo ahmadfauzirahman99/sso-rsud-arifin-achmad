@@ -13,26 +13,21 @@ LoginAsset::register($this);
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-	<meta charset="<?= Yii::$app->charset ?>"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" type="image/x-icon" href="<?= Url::to('@web/img/logo_rsud.png') ?>">
+    <meta charset="<?= Yii::$app->charset ?>"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="<?= Url::to('@web/img/logo_rsud.png') ?>">
 
-	<?= Html::csrfMetaTags() ?>
-	<title><?= Html::encode($this->title) ?></title>
-	<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,700&display=swap"-->
-	<!--          rel="stylesheet">-->
-	<style>
-		@font-face {
-			font-family: Roboto;
-			src: url('http://sso.rsud-arifin.localhost/web/font/Roboto-Medium.ttf');
-		}
-	</style>
-	<style>
-		html, body {
-			font-family: 'Roboto', sans-serif !important;
-		}
-	</style>
-	<?php $this->head() ?>
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        html, body {
+            font-family: 'Roboto', sans-serif !important;
+        }
+    </style>
+    <?php $this->head() ?>
 </head>
 <body>
 

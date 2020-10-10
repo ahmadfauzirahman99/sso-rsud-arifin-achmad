@@ -14,11 +14,6 @@ use \yii\web\User;
 
 $this->title = 'Dashboard';
 ?>
-<input type="date" id="date" class="form-control">
-
-<hr>
-<a href="#" id="cetak">Print</a>
-<hr>
 <div class="container pd-x-0 tx-13">
 	<div class="row">
 
@@ -48,13 +43,10 @@ $this->title = 'Dashboard';
 
 					<did class="row">
 						<div class="col-lg-12">
-							<a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changefoto"
-							   class="btn btn-block btn-outline-info">Change Foto <span class="fa fa-image"></span></a>
+							<a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changefoto" class="btn btn-block btn-outline-info">Change Foto <span class="fa fa-image"></span></a>
 						</div>
 						<div class="col-lg-12 mg-y-25">
-							<a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changepassword"
-							   class="btn btn-block btn-outline-warning">Change Password <span
-										class="fa fa-lock"></span></a>
+							<a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changepassword" class="btn btn-block btn-outline-warning">Change Password <span class="fa fa-lock"></span></a>
 						</div>
 					</did>
 					<hr class="mg-y-25">
@@ -108,10 +100,11 @@ $this->title = 'Dashboard';
 			<div class="media d-block d-lg-flex">
 				<div class="media-body mg-t-40 mg-lg-t-0 pd-lg-x-10">
 					<div class="card mg-b-20 mg-lg-b-25">
-						<?= $this->render('_aplikasi.php',
-								[
-										'aplikasi' => $aplikasi
-								]
+						<?= $this->render(
+							'_aplikasi.php',
+							[
+								'aplikasi' => $aplikasi
+							]
 						) ?>
 					</div><!-- card -->
 				</div>
@@ -128,11 +121,9 @@ $this->title = 'Dashboard';
 						</div><!-- card-header -->
 						<div class="card-body pd-20 pd-lg-25">
 							<ul class="list-group">
-								<?php foreach ($log as $item): ?>
+								<?php foreach ($log as $item) : ?>
 									<li class="list-group-item d-flex align-items-center">
-										<img src="<?= Yii::$app->request->baseUrl ?>/img/logo_rsud.jpg"
-											 class="wd-30 rounded-circle mg-r-15"
-											 alt="">
+										<img src="<?= Yii::$app->request->baseUrl ?>/img/logo_rsud.jpg" class="wd-30 rounded-circle mg-r-15" alt="">
 										<div>
 											<h4 class="tx-15-f tx-inverse tx-semibold mg-b-0"><?= $item->tgb ?></h4>
 											<span class="d-block tx-11 text-muted"><?= $item->inf ?> </span>
@@ -150,8 +141,7 @@ $this->title = 'Dashboard';
 
 </div>
 
-<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
-	 aria-hidden="true">
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content tx-14">
 			<div class="modal-header">
@@ -173,8 +163,7 @@ $this->title = 'Dashboard';
 	</div>
 </div>
 
-<div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
-	 aria-hidden="true">
+<div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content tx-14">
 			<div class="modal-header">
@@ -189,27 +178,19 @@ $this->title = 'Dashboard';
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1"><span class="fa fa-lock"></span></span>
 						</div>
-						<input type="password" class="form-control" name="passwordBaru" id="passwordBaru"
-							   placeholder="Password Baru"
-							   aria-label="Password Baru"
-							   aria-describedby="PasswordBaru">
+						<input type="password" class="form-control" name="passwordBaru" id="passwordBaru" placeholder="Password Baru" aria-label="Password Baru" aria-describedby="PasswordBaru">
 					</div>
 					<div class="input-group mg-b-10">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1"><span class="fa fa-lock"></span></span>
 						</div>
-						<input type="password" class="form-control" name="konfirmasiPasswordBaru"
-							   id="konfirmasiPasswordBaru"
-							   placeholder="Konfirmasi Password Baru"
-							   aria-label="Konfirmasi"
-							   aria-describedby="KonfirmasiPasswordBaru">
+						<input type="password" class="form-control" name="konfirmasiPasswordBaru" id="konfirmasiPasswordBaru" placeholder="Konfirmasi Password Baru" aria-label="Konfirmasi" aria-describedby="KonfirmasiPasswordBaru">
 					</div>
 					<div class="custom-control custom-switch">
 						<input type="checkbox" class="custom-control-input" id="customSwitch1">
 						<label class="custom-control-label" for="customSwitch1">Show Password</label>
 					</div>
-					<input type="hidden" name="<?= Yii::$app->request->csrfParam ?>"
-						   value="<?= Yii::$app->request->csrfToken ?>">
+					<input type="hidden" name="<?= Yii::$app->request->csrfParam ?>" value="<?= Yii::$app->request->csrfToken ?>">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>

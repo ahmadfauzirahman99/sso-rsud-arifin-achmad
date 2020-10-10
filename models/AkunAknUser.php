@@ -173,7 +173,7 @@ class AkunAknUser extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'akun.akn_user';
+        return 'sso.akn_user';
     }
 
     /**
@@ -183,7 +183,7 @@ class AkunAknUser extends \yii\db\ActiveRecord
     {
         return [
             [['id_pegawai', 'username', 'password'], 'required'],
-            [['username'], 'unique'],
+            ['username', 'unique'],
             [['id_pegawai', 'status'], 'default', 'value' => null],
             [['id_pegawai', 'status'], 'integer'],
             [['tanggal_pendaftaran'], 'safe'],
@@ -200,7 +200,7 @@ class AkunAknUser extends \yii\db\ActiveRecord
     {
         return [
             'userid' => 'Userid',
-            'id_pegawai' => 'Kode Pegawai',
+            'id_pegawai' => 'Nama Pegawai',
             'username' => 'Username',
             'password' => 'Password',
             'nama' => 'Nama',

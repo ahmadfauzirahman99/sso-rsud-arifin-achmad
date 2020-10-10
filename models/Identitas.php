@@ -31,6 +31,7 @@ class Identitas extends Model implements IdentityInterface
     public $kodeSesi;
     public $kodeAkun;
     public $foto;
+    public $rumpunSdm;
     private $_sesi = false;
 
     public function __construct($config)
@@ -38,8 +39,8 @@ class Identitas extends Model implements IdentityInterface
         if ($config instanceof Sesi) {
             parent::__construct([]);
             $this->_sesi = $config;
-//            var_dump($config->getAkun()->getUserid());
-//            exit();
+            //            var_dump($config->getAkun()->getUserid());
+            //            exit();
             $this->idProfilR = $config->getAkun()->getUserid();
             $this->id = $config->getAkun()->getUserid();
             $this->idSesi = $config->getId();
@@ -57,7 +58,6 @@ class Identitas extends Model implements IdentityInterface
             parent::__construct($config);
         } else {
             $this->_sesi = null;
-
         }
     }
 
@@ -114,18 +114,17 @@ class Identitas extends Model implements IdentityInterface
 
     public static function findIdentity($id)
     {
-//        echo '<pre>';
-        $sesi = Sesi::find()->
-        where([
-            'ida' => $id,
-            'ipa' => Yii::$app->request->getUserIP(),
-            'inf' => Yii::$app->request->getUserAgent(),
-            'isk' => 0
-        ])->orderBy('tgb DESC')
+        //        echo '<pre>';
+        $sesi = Sesi::find()->where([
+                'ida' => $id,
+                'ipa' => Yii::$app->request->getUserIP(),
+                'inf' => Yii::$app->request->getUserAgent(),
+                'isk' => 0
+            ])->orderBy('tgb DESC')
             ->limit(1)
             ->one();
-//        var_dump($sesi);
-//        exit();
+        //        var_dump($sesi);
+        //        exit();
         if (is_null($sesi)) {
             Yii::$app->session->setFlash('warning', 'Sesi tidak ditemukan.');
             Yii::$app->user->logout(true);
@@ -439,4 +438,8 @@ class Identitas extends Model implements IdentityInterface
         }
     }
 
+    public function getRumpunSdm()
+    {
+        // $sdm = 
+    }
 }

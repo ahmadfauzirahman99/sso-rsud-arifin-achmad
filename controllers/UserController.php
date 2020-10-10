@@ -99,16 +99,6 @@ class UserController extends Controller
 //        var_dump($ar);
 //        exit();
 		if ($model->load(Yii::$app->request->post())) {
-
-			$p = Yii::$app->request->post();
-			$akun = AkunAknUser::find()->where(['username' => $model->getUsername()])->one();
-
-			if ($akun) {
-				Yii::$app->session->setFlash('contactFormSubmitted');
-				return $this->render('create', [
-					'model' => $model,
-				]);
-			}
 			$username = str_replace(" ", "", $model->username);
 			$password = md5($model->getPassword());
 			$model->setTanggalPendaftaran(date('Y-m-d H:i:s'));

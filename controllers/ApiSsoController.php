@@ -11,6 +11,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
 use stdClass;
+header("Access-Control-Allow-Origin: *");
 
 class ApiSsoController extends Controller
 {

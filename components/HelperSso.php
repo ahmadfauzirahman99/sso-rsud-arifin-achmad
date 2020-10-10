@@ -16,6 +16,7 @@ class HelperSso
 		'NONMEDIS' => 'NONMEDIS',
 		'APLIKASI' => 'APLIKASI',
 		'Eksternal' => 'Eksternal',
+		'Keperawatan' => 'KEPERAWATAN'
 	];
 
 	const TypeUserStatus = [
