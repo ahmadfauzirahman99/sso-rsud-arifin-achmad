@@ -11,6 +11,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
 use stdClass;
+
 header("Access-Control-Allow-Origin: *");
 
 class ApiSsoController extends Controller
@@ -30,7 +31,7 @@ class ApiSsoController extends Controller
 
 	public function actionGetPegawai($id)
 	{
-		$data = TbPegawai::find()->where(['ilike','nama_lengkap',$id.'%',false])->all();
+		$data = TbPegawai::find()->where(['ilike', 'nama_lengkap', $id . '%', false])->all();
 
 		return $this->writeResponse(true, "Berhasil", $data);
 	}
@@ -40,7 +41,7 @@ class ApiSsoController extends Controller
 		$rq = Yii::$app->request;
 		$p = $rq->post();
 
-		if (Yii::$app->user->identity->getRoles() == 'NONMEDIS' || Yii::$app->user->identity->getRoles() == 'MEDIS' || Yii::$app->user->identity->getRoles() == 'ROOT') {
+		if (Yii::$app->user->identity->roles == 'NONMEDIS' || Yii::$app->user->identity->roles == 'MEDIS' || Yii::$app->user->identity->roles == 'ROOT') {
 			$id = Yii::$app->user->identity->getId();
 			$passwordBaru = $p['passwordBaru'];
 			$konfirmasiPasswordBaru = $p['konfirmasiPasswordBaru'];
@@ -60,9 +61,6 @@ class ApiSsoController extends Controller
 				return $this->writeResponse(false, "Tidak Berhasil Merubah Password, Silahkan Coba Kembali");
 			}
 		} else {
-
 		}
-
-
 	}
 }

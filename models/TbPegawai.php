@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "sip.tb_pegawai".
  *
- * @property int $pegawai_id
+ * @property int $  
  * @property string $id_nip_nrp
  * @property string|null $nama_lengkap
  * @property string|null $gelar_sarjana_depan

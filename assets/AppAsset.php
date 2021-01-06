@@ -34,7 +34,7 @@ class AppAsset extends AssetBundle
 
         "assets/js/dashforge.js",
         "assets/js/dashforge.aside.js",
-
+        'https://cdn.jsdelivr.net/npm/sweetalert2@9',
 //        append theme customizer
         "lib/js-cookie/js.cookie.js",
         "assets/js/dashforge.settings.js",

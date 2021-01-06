@@ -11,33 +11,36 @@ class TipeAkun
 	const NONMEDIS = 'NONMEDIS';
 	const APLIKASI = 'APLIKASI';
 	const Eksternal = 'Eksternal';
-	const Keperawatan = KEPERAWATAN;
+	const Keperawatan = 'KEPERAWATAN';
 
 
 
 	const HakAkses = [
 		'NONMEDIS' => ['Aplikasi HRM Kepegawaian RSUD', 'Aplikasi Presensi RSUD Arifin Achmad'],
-		'MEDIS' => [	
-		'Aplikasi E-MCU RSUD',
-		'Aplikasi Pendaftaran RSUD', 'Aplikasi  ( Laboratorium dan Radiolog dan Visum) RSUD', 'Aplikasi Rawat Inap RSUD', 'Aplikasi Surveilence RSUD', 'Aplikasi Kasbank RSUD', 'Aplikasi Farmasi RSUD', 'Aplikasi Rawat Jalan RSUD', 'Aplikasi Presensi RSUD Arifin Achmad'],
-		'ROOT' => [
-		'Aplikasi Pendaftaran RSUD', 
-		'Aplikasi  ( Laboratorium dan Radiolog dan Visum) RSUD',
-		'Aplikasi Rawat Inap RSUD', 
-		'Aplikasi Surveilence RSUD', 
-		'Aplikasi Kasbank RSUD',
-		'Aplikasi Farmasi RSUD',
-		'Aplikasi Rawat Jalan RSUD',
-		'Aplikasi HRM Kepegawaian RSUD',
-		'Aplikasi Presensi RSUD Arifin Achmad',
-		'Aplikasi E-MCU RSUD'
+		'MEDIS' => [
+			'Aplikasi E-MCU RSUD',
+			'Aplikasi Pendaftaran RSUD', 'Aplikasi  ( Laboratorium dan Radiolog dan Visum) RSUD', 'Aplikasi Rawat Inap RSUD', 'Aplikasi Surveilence RSUD', 'Aplikasi Kasbank RSUD', 'Aplikasi Farmasi RSUD', 'Aplikasi Rawat Jalan RSUD', 'Aplikasi Presensi RSUD Arifin Achmad'
 		],
-		'Keperawatan'=>
-	'Aplikasi E-MCU RSUD'
+		'ROOT' => [
+			'Aplikasi Pendaftaran RSUD',
+			'Aplikasi  ( Laboratorium dan Radiolog dan Visum) RSUD',
+			'Aplikasi Rawat Inap RSUD',
+			'Aplikasi Surveilence RSUD',
+			'Aplikasi Kasbank RSUD',
+			'Aplikasi Farmasi RSUD',
+			'Aplikasi Rawat Jalan RSUD',
+			'Aplikasi HRM Kepegawaian RSUD',
+			'Aplikasi Presensi RSUD Arifin Achmad',
+			'Aplikasi E-MCU RSUD',
+			'Presensi Online RSUD',
+		],
+		'Keperawatan' =>
+		'Aplikasi E-MCU RSUD',
+		'Presensi Online RSUD',
 	];
 
 	const HakAksesKhusus = [
-		'NONMEDIS' => ['Aplikasi HRM Kepegawaian RSUD', 'Aplikasi Presensi RSUD Arifin Achmad', 'Aplikasi Backoffice Akuntansi RSUD'],
+		'NONMEDIS' => ['Aplikasi HRM Kepegawaian RSUD', 'Presensi Online RSUD', 'Aplikasi Backoffice Akuntansi RSUD'],
 
 	];
 

@@ -13,7 +13,7 @@
 		<span>Dashboard Monitoring</span>
 	</a>
 </li>
-<?php if (Yii::$app->user->identity->getRoles() == 'ROOT' || Yii::$app->user->identity->getRoles() == 'APLIKASI'): ?>
+<?php if (Yii::$app->user->identity->roles == 'ROOT' || Yii::$app->user->identity->roles == 'APLIKASI') { ?>
 	<li class="nav-label mg-t-25">Data Master</li>
 	<li class="nav-item">
 		<a href="<?= Yii::$app->urlManager->createUrl('aplikasi/index') ?>" class="nav-link">
@@ -34,4 +34,11 @@
 			<span>Koreksi Data</span>
 		</a>
 	</li>
-<?php endif ?>
+<?php } else { ?>
+	<li class="nav-item">
+		<a href="<?= Yii::$app->urlManager->createUrl('site/list-absensi') ?>" class="nav-link">
+			<i data-feather="file"></i>
+			<span>Rekap Absensi</span>
+		</a>
+	</li>
+<?php } ?>

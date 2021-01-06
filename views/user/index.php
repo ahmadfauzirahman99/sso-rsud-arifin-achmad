@@ -12,11 +12,11 @@ $this->title = 'Data Akun Identitas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="akun-akn-user-index box box-primary">
-    <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+    <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')) : ?>
 
-    <div class="alert alert-success">
-        Reset Password Berhasil Dilakukan Oleh <i><?= Yii::$app->user->identity->getNama() ?></i>
-    </div>
+        <div class="alert alert-success">
+            Reset Password Berhasil Dilakukan Oleh <i><?= Yii::$app->user->identity->nama ?></i>
+        </div>
     <?php endif; ?>
     <?php Pjax::begin(); ?>
     <h1 class="df-title">Form Tambah User</h1>
@@ -29,26 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-//                ['class' => 'yii\grid\ActionColumn'],
+                //                ['class' => 'yii\grid\ActionColumn'],
 
-//                'userid',
-//                'id_pegawai',
                 'username',
-//                'password',
                 'nama',
-//                 'tanggal_pendaftaran',
                 'role',
-                // 'token_aktivasi:ntext',
                 // 'status',
-
                 [
                     'class' => 'app\components\ActionColumn',
                     'header' => 'Actions',
+                    'contentOptions' => ['style' => 'color:#337ab7;text-align: center;min-width: 10px;']
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'header' => 'Reset Password',
                     'headerOptions' => ['style' => 'color:#337ab7;text-align: center;min-width: 10px;'],
+                    'contentOptions' => ['style' => 'color:#337ab7;text-align: center;min-width: 10px;'],
                     'options' => ['style' => 'width:70px;text-align: center'],
                     'template' => '{reset}',
                     'buttons' => [
