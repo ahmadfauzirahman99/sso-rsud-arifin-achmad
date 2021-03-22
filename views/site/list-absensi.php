@@ -34,34 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td style="text-align: center; padding:2px"><?= Yii::$app->user->identity->nama ?></td>
                     <?php foreach ($absensis as $item) { ?>
                         <?php foreach ($item['absensi'] as $dt_absen) : ?>
-                            <th style="width:  2%; text-align: center; padding:2px"><?= $dt_absen['kehadiran'] == 'Hadir' ? '<i class="fa fa-check"></i>' : $dt_absen['kehadiran'] ?></th>
+                            <th style="width:  2%; text-align: center; padding:2px"><?= $dt_absen['kehadiran'] ?></th>
                         <?php endforeach; ?>
                     <?php } ?>
                 </tr>
             </table>
+            <br>
+            <div class="col-lg-12">
+                <span class="badge badge-success">H : Hadir</span>
+                <span class="badge badge-info">A : ALFA</span>
+                <span class="badge badge-danger">LN/L : Hari Libur Nasional atau Libur Kerja</span>
+            </div>
         </div>
+
     </div>
     <br>
-    <div class="row">
-        <div class="col-lg-4">
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Total Hari Masuk
-                    <span class="badge badge-success badge-pill"><?= $totalMasuk ?></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Total Alfa
-                    <span class="badge badge-danger badge-pill"><?= $totalAlfa ?></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Total Sakit
-                    <span class="badge badge-warning badge-pill"><?= $totalSakit ?></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Total Cuti
-                    <span class="badge badge-primary badge-pill"><?= $totalCuti ?></span>
-                </li>
-            </ul>
-        </div>
-    </div>
 </div>

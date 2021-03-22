@@ -8,13 +8,14 @@ use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\AkunAknUser */
 /* @var $form yii\widgets\ActiveForm */
+
 $role = ['pegawai' => 'Pegawai', 'dokter' => 'Dokter', 'perawat' => 'Perawat'];
 $dataPegawai = HelperSso::getDataPegawai();
 
 ?>
 
 <div class="card card-body">
-	<?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+	<?php if (Yii::$app->session->hasFlash('contactFormSubmitted')) : ?>
 
 		<div class="alert alert-danger">
 			Data Telah Terdaftar!!!!!!!!!!!!!!!!!!!!!!!!
@@ -23,15 +24,15 @@ $dataPegawai = HelperSso::getDataPegawai();
 	<?php $form = ActiveForm::begin(); ?>
 	<div class="box-body">
 		<div class="row">
-			<?php if ($model->isNewRecord): ?>
+			<?php if ($model->isNewRecord) : ?>
 				<div class="col-lg-12">
 					<?= $form->field($model, 'id_pegawai')->widget(Select2::classname(), [
-							'data' => \yii\helpers\ArrayHelper::map($dataPegawai, 'pegawai_id', 'nama_lengkap'),
-							'language' => 'en',
-							'options' => ['placeholder' => 'Pilih Pegawai'],
-							'pluginOptions' => [
-									'allowClear' => true
-							],
+						'data' => \yii\helpers\ArrayHelper::map($dataPegawai, 'pegawai_id', 'nama_lengkap'),
+						'language' => 'en',
+						'options' => ['placeholder' => 'Pilih Pegawai'],
+						'pluginOptions' => [
+							'allowClear' => true
+						],
 					]); ?>
 				</div>
 			<?php endif; ?>
@@ -42,7 +43,7 @@ $dataPegawai = HelperSso::getDataPegawai();
 			<div class="col-lg-12">
 				<?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama Lengkap']) ?>
 			</div>
-			<?php if ($model->isNewRecord): ?>
+			<?php if ($model->isNewRecord) : ?>
 				<div class="col-lg-12">
 					<?= $form->field($model, 'password')->passwordInput(['maxlength' => true, 'placeholder' => 'Password']) ?>
 				</div>
@@ -55,12 +56,12 @@ $dataPegawai = HelperSso::getDataPegawai();
 
 		<?php $form->field($model, 'role')->dropDownList($role, ['prompt' => 'Pilih Role Identitas']) ?>
 		<?= $form->field($model, 'role')->widget(Select2::classname(), [
-				'data' => HelperSso::TypeUser,
-				'language' => 'en',
-				'options' => ['placeholder' => 'Pilih Role'],
-				'pluginOptions' => [
-						'allowClear' => true
-				],
+			'data' => HelperSso::TypeUser,
+			'language' => 'en',
+			'options' => ['placeholder' => 'Pilih Role'],
+			'pluginOptions' => [
+				'allowClear' => true
+			],
 		]); ?>
 		<?php $form->field($model, 'token_aktivasi')->textarea(['rows' => 6]) ?>
 
@@ -82,7 +83,13 @@ $JS = <<< JS
       $.get('get-pegawai',{id:akun},function(data) {
         // akunaknuser-username
         console.log(data);
-        $("#akunaknuser-username").attr('value',data.results.id_nip_nrp);
+
+		if(data.results.status_kepegawaian_id  == '141'){
+        	$("#akunaknuser-username").attr('value',data.results.nomor_ktp);
+		}else{
+        	$("#akunaknuser-username").attr('value',data.results.id_nip_nrp);
+			
+		}
         // akunaknuser-nama
         $("#akunaknuser-nama").attr('value',data.results.nama_lengkap)
       },'JSON');

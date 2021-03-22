@@ -16,6 +16,8 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\TbPegawai;
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 class SiteController extends Controller
 {
     /**
@@ -40,6 +42,7 @@ class SiteController extends Controller
                             'view',
                             'delete',
                             'absen',
+                            'absen-keluar',
                             'list-absensi',
                         ],
                         'allow' => true,
@@ -103,7 +106,7 @@ class SiteController extends Controller
         } else {
             $aplikasi = Aplikasi::find()->where(['in', 'inf', TipeAkun::HakAkses[$hak]])->orderBy('inf ASC')->all();
         }
-        $pegawaiSaya = HelperSso::getDataPegawaiByNip(Yii::$app->user->identity->kodeAkun);
+        $pegawaiSaya = HelperSso::getDataPegawaiByNip(Yii::$app->user->identity->idData);
 
         $log = HelperSso::getLogLogin($id);
         return $this->render('index', [
@@ -178,49 +181,73 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionAbsen($id = null, $id_pegawai = null)
+    public function actionAbsen()
     {
-        if ($id) {
-            $absen = Absensi::find()->alias('a')
-                ->leftJoin(TbPegawai::tableName() . " as tb", "a.nip_nik = tb.id_nip_nrp")
-                ->where(["a.tanggal_masuk" => date("Y-m-d")])
-                ->andWhere(['a.nip_nik' => $id])->asArray()->one();
-            date_default_timezone_set("Asia/Jakarta");
+        // if ($id) {
 
-            if (is_null($absen)) {
-                $absen = new Absensi();
-                $absen->id_pegawai = $id_pegawai;
-                $absen->nip_nik = $id;
-                $absen->jam_masuk = date('H:i:s');
-                $absen->jam_keluar = "";
-                $absen->tanggal_masuk = date('Y-m-d');
-                $absen->lat = '0.5233203';
-                $absen->long = '101.451869,15';
-                $absen->status = "h";
-                $absen->how = "Web";
 
-                if ($absen->save()) {
-                    Yii::$app->session->setFlash('success', 'Berhasil Mengambil Absen Selamat Datang :)');
-                    return $this->redirect(['site/index']);
-                } else {
-                    Yii::$app->session->setFlash('danger', 'Tidak Berhasil Mengambil Absen Hubungi Edp :(');
-                    return $this->redirect(['site/index']);
-                }
-            } else {
-                $absen = Absensi::find()->alias('a')
-                    ->where(["a.tanggal_masuk" => date("Y-m-d")])
-                    ->andWhere(['a.nip_nik' => $id])->one();
-                $absen->jam_keluar = date('H:i:s');
-                if ($absen->save()) {
-                    Yii::$app->session->setFlash('success', 'Berhasil Mengambil Absen Pulang Hati-Hati Dijalan Ya :)');
-                    return $this->redirect(['site/index']);
-                } else {
-                    Yii::$app->session->setFlash('danger', 'Tidak Berhasil Mengambil Absen Hubungi Edp :(');
-                    return $this->redirect(['site/index']);
-                }
-            }
+        $id = $_POST['id'];
+        $pegawai = TbPegawai::findOne(['pegawai_id' => $id]);
+        date_default_timezone_set("Asia/Jakarta");
+
+        // if (is_null($absen)) {
+        $absen = new Absensi();
+        $absen->id_pegawai = $pegawai->pegawai_id;
+        $absen->nip_nik = $pegawai->id_nip_nrp;
+        $absen->jam_masuk = date('H:i:s');
+        $absen->jam_keluar = "";
+        $absen->tanggal_masuk = date('Y-m-d');
+        $absen->lat = '0.5233203';
+        $absen->long = '101.451869';
+        $absen->status = "h";
+        $absen->how = "Web";
+
+        if ($absen->save(false)) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            return [
+                's' => true,
+                'e' => null
+            ];
+        } else {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            return [
+                's' => false,
+                'e' => $absen->errors
+            ];
         }
-        Yii::$app->session->setFlash('danger', 'Tidak Berhasil');
+    }
+
+    public function actionAbsenKeluar()
+    {
+        $id = $_POST['id'];
+        $absen = Absensi::find()->where(['id_pegawai' => $id])->andWhere(['tanggal_masuk' => date("Y-m-d")])->one();
+        date_default_timezone_set("Asia/Jakarta");
+
+        if ($absen) {
+            $absen->jam_keluar = date('H:i:s');
+            if ($absen->save(false)) {
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+                return [
+                    's' => true,
+                    'e' => null
+                ];
+            } else {
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+                return [
+                    's' => false,
+                    'e' => $absen->errors
+                ];
+            }
+        } else {
+            return [
+                's' => false,
+                'e' => null
+            ];
+        }
     }
 
     public function actionListAbsensi()
@@ -228,64 +255,53 @@ class SiteController extends Controller
 
         $googleCalander = new HelperSso();
         date_default_timezone_set("Asia/Jakarta");
-        // echo '<pre>';
 
-        $list_libur_free_day = $googleCalander->cekNationalFreeDay();
-        // var_dump($list_libur_free_day);
+        $hari_kerja = ['Sat', 'Sun'];
 
         $absensi = TbPegawai::find()
             ->where(['id_nip_nrp' => Yii::$app->user->identity->kodeAkun])
             ->all();
         $absensis = [];
 
-        $totalMasuk = 0;
-        $totalAlfa = 0;
-        $totalSakit = 0;
-        $totalCuti = 0;
+      
         $d = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
-        $hari_kerja = $googleCalander->getHariKerja($d);
-        foreach ($hari_kerja  as $itemKerja) {
-            var_dump($itemKerja);
-        }
-        exit;
+        $hariLiburNasional = $googleCalander->cekNationalFreeDay();
+      
         foreach ($absensi as $data) {
             for ($i = 1; $i <= $d; $i++) {
-                // echo '<pre>';
-                // var_dump($i);
+                $tanggal = strlen($i) ==  2 ? date('Y-m-' . $i) : date('Y-m-' . "0" . $i);
+                $dHari = date('D', strtotime($tanggal));
+
+
+                if ($i < 10) {
+                    $n =  '0' . $i;
+                } else {
+                    $n = $i;
+                }
                 $absen_masuk_pegawai = Absensi::find()
-                    ->where(['=', 'tanggal_masuk', date('Y-m-') . '0' . $i])
+                    ->where(['=', 'tanggal_masuk', date('Y-m-') . $n])
+                    ->andWhere(['nip_nik' => Yii::$app->user->identity->kodeAkun])
                     ->orderBy(['id_tb_absensi' => SORT_ASC])
                     ->one();
 
                 if ($absen_masuk_pegawai != null) {
-                    if ($absen_masuk_pegawai->status  ==  'h') {
-                        $totalMasuk += 1;
-                        $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "Hadir";
-                    } else if ($absen_masuk_pegawai->status  ==  's') {
-                        $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "Sakit";
-                        $totalSakit += 1;
-                    } else if ($absen_masuk_pegawai->status  ==  'a') {
-                        $totalAlfa += 1;
-                        $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "Alfa";
-                    } else if ($absen_masuk_pegawai->status  ==  'c') {
-                        $totalCuti += 1;
-                        $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "Cuti";
-                    } else {
-                        $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "Tidak Hadir";
-                    }
+                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:green;'>H</span>";
+                } elseif (in_array($tanggal, $hariLiburNasional)) {
+                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:red;'>LN</span>";
+                } elseif (in_array($dHari, $hari_kerja)) {
+                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:red;'>L</span>";
                 } else {
-                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "";
+                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:blue;'></span>";
                 }
             }
         }
+
+
         // exit();
 
         return $this->render('list-absensi', [
             'absensis' => $absensis,
-            'totalMasuk' => $totalMasuk,
-            'totalAlfa' => $totalAlfa,
-            'totalSakit' => $totalSakit,
-            'totalCuti' => $totalCuti,
+          
         ]);
     }
 }

@@ -3,6 +3,7 @@
 
 namespace app\controllers;
 
+use app\models\Absensi;
 use app\models\AkunAknUser;
 use app\models\TbPegawai;
 use Yii;
@@ -61,6 +62,75 @@ class ApiSsoController extends Controller
 				return $this->writeResponse(false, "Tidak Berhasil Merubah Password, Silahkan Coba Kembali");
 			}
 		} else {
+		}
+	}
+
+	public function actionAbsen()
+	{
+		// if ($id) {
+
+
+		$id = $_POST['id'];
+		$pegawai = TbPegawai::findOne(['pegawai_id' => $id]);
+		date_default_timezone_set("Asia/Jakarta");
+
+		// if (is_null($absen)) {
+		$absen = new Absensi();
+		$absen->id_pegawai = $pegawai->pegawai_id;
+		$absen->nip_nik = $pegawai->id_nip_nrp;
+		$absen->jam_masuk = date('H:i:s');
+		$absen->jam_keluar = "";
+		$absen->tanggal_masuk = date('Y-m-d');
+		$absen->lat = '0.5233203';
+		$absen->long = '101.451869';
+		$absen->status = "h";
+		$absen->how = "Web";
+
+		if ($absen->save(false)) {
+			\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+			return [
+				's' => true,
+				'e' => null
+			];
+		} else {
+			\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+			return [
+				's' => false,
+				'e' => $absen->errors
+			];
+		}
+	}
+
+	public function actionAbsenKeluar()
+	{
+		$id = $_POST['id'];
+		$absen = Absensi::find()->where(['id_pegawai' => $id])->andWhere(['tanggal_masuk' => date("Y-m-d")])->one();
+		date_default_timezone_set("Asia/Jakarta");
+
+		if ($absen) {
+			$absen->jam_keluar = date('H:i:s');
+			if ($absen->save(false)) {
+				\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+				return [
+					's' => true,
+					'e' => null
+				];
+			} else {
+				\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+				return [
+					's' => false,
+					'e' => $absen->errors
+				];
+			}
+		} else {
+			return [
+				's' => false,
+				'e' => null
+			];
 		}
 	}
 }

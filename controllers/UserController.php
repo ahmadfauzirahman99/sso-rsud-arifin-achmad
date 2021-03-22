@@ -96,8 +96,8 @@ class UserController extends Controller
 	public function actionCreate()
 	{
 		$model = new AkunAknUser();
-//        var_dump($ar);
-//        exit();
+		//        var_dump($ar);
+		//        exit();
 		if ($model->load(Yii::$app->request->post())) {
 			$username = str_replace(" ", "", $model->username);
 			$password = md5($model->getPassword());
@@ -105,8 +105,8 @@ class UserController extends Controller
 			$model->setUsername($username);
 			$model->setPassword($password);
 			$model->setStatus('0');
-			$model->save();
-			return $this->redirect(['view', 'id' => $model->userid]);
+			$model->save(false);
+			return $this->redirect(['create']);
 		} else {
 			return $this->render('create', [
 				'model' => $model,
@@ -126,8 +126,8 @@ class UserController extends Controller
 		// var_dump(md5($model->getPassword()));
 		// exit();
 		if ($model->load(Yii::$app->request->post())) {
-//            $password = md5($model->getPassword());
-//            $model->setPassword($password);
+			//            $password = md5($model->getPassword());
+			//            $model->setPassword($password);
 			$model->save();
 			return $this->redirect(['view', 'id' => $model->userid]);
 		} else {

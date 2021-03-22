@@ -13,13 +13,14 @@ use yii\base\InvalidValueException;
 use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use \yii\web\User;
+use yii\web\View;
 use yii\widgets\Pjax;
 
 $this->title = 'Dashboard';
 $absen = Absensi::find()->alias('a')
 	->where(["a.tanggal_masuk" => date("Y-m-d")])
 	->andWhere(['a.nip_nik' => Yii::$app->user->identity->kodeAkun])->one();
-	date_default_timezone_set("Asia/Jakarta");
+date_default_timezone_set("Asia/Jakarta");
 
 ?>
 <?php Pjax::begin(['id' => 'pjax-dashboard']); ?>
@@ -30,14 +31,14 @@ $absen = Absensi::find()->alias('a')
 		<div class="card mg-b-20 mg-lg-b-25">
 			<div class="card-body">
 				<?php if (is_null($absen)) { ?>
-					<a href="<?= Url::to(['site/absen', 'id' => Yii::$app->user->identity->kodeAkun, 'id_pegawai' => Yii::$app->user->identity->id]) ?>" class="btn btn-outline-primary btn-block">Absen Masuk <b> Pukul :<?= date('H:i:s') ?></b> WIB</a>
+					<a href="javascript:void(0)" onclick='absenMasuk(this)' data-value="<?= Yii::$app->user->identity->idData ?>" class="btn btn-outline-primary btn-block">Absen Masuk <b> Pukul :<?= date('H:i:s') ?></b> WIB</a>
 				<?php } else { ?>
 					<h4 class="text-center">Anda Telah Absen Masuk <b>Pada Pukul <?= $absen->jam_masuk ?> WIB</b></h4>
 					<hr>
 				<?php } ?>
 				<?php if (!is_null($absen)) { ?>
 					<?php if (is_null($absen->jam_keluar)) { ?>
-						<a href="<?= Url::to(['site/absen', 'id' => Yii::$app->user->identity->kodeAkun, 'id_pegawai' => Yii::$app->user->identity->id]) ?>" class="btn btn-outline-danger btn-block">Absen Pulang <b> Pukul :<?= date('H:i:s') ?></b> WIB</a>
+						<a href="javascript:void(0)" onclick="absenKeluar(this)" data-value="<?= Yii::$app->user->identity->idData ?>" class="btn btn-outline-danger btn-block">Absen Pulang <b> Pukul :<?= date('H:i:s') ?></b> WIB</a>
 					<?php } else { ?>
 						<h4 class="text-center">Anda Telah Absen Keluar <b>Pada Pukul <?= $absen->jam_keluar ?> WIB</b></h4>
 					<?php } ?>
@@ -237,14 +238,12 @@ $absen = Absensi::find()->alias('a')
 	<?php
 	$JS = <<< JS
   $(document).ready(function() {
-
-
-    setInterval(function () {
-        $.pjax.reload({
-            container: '#pjax-dashboard',
-            timeout: false
-        });
-    }, 3000);
+    // setInterval(function () {
+    //     $.pjax.reload({
+    //         container: '#pjax-dashboard',
+    //         timeout: false
+    //     });
+    // }, 3000);
       // change foto
     $('#changefoto').on('click',function() {
         $("#exampleModalLabel2").html("<i class='typcn typcn-pencil'></i> &nbsp;Change Foto")
@@ -318,6 +317,7 @@ $absen = Absensi::find()->alias('a')
         });
     }
     
+	
  
 
 }
@@ -325,5 +325,5 @@ $absen = Absensi::find()->alias('a')
 
 JS;
 	$this->registerJs($JS);
-	$this->registerJs($this->render('upload.js'));
+	$this->registerJs($this->render('upload.js'), View::POS_END);
 	?>

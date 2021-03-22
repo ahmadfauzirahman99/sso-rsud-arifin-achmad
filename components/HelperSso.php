@@ -46,15 +46,17 @@ class HelperSso
 
 	public static function getDataPegawai()
 	{
-		$sso = \app\models\AkunAknUser::find()->select('username')->all();
+		$sso = \app\models\AkunAknUser::find()->select('id_pegawai')->all();
 
 		$array = [];
 		foreach ($sso as $v) {
-			$array[] = $v->username;
+			$array[] = $v->id_pegawai;
 		}
 
 
-		$r = TbPegawai::find()->where(['not in', 'id_nip_nrp', $array])->orderBy(['nama_lengkap' => SORT_ASC])->all();
+		$r = TbPegawai::find()->where(['not in', 'pegawai_id', $array])
+			->orderBy(['nama_lengkap' => SORT_ASC])
+			->all();
 
 		return $r;
 	}
@@ -62,8 +64,9 @@ class HelperSso
 
 	public static function getDataPegawaiByNip($id)
 	{
-		$r = TbPegawai::find()
-			->where(['id_nip_nrp' => $id])->one();
+		$r = TbPegawai::find()->where(['pegawai_id' => $id])->one();
+		// if ($r) {
+		// }
 		return $r;
 	}
 
@@ -141,27 +144,26 @@ class HelperSso
 	}
 
 	/**
-     * @return array jam kerja
-     */
-    public function getJamKerja()
-    {
-        $jamkerja = [
-            ['07:30:00', '12:45:00'],
-            ['13:00:00', '16:00:00'],
-        ];
+	 * @return array jam kerja
+	 */
+	public function getJamKerja()
+	{
+		$jamkerja = [
+			['07:30:00', '12:45:00'],
+			['13:00:00', '16:00:00'],
+		];
 
-        $jamkerjamenit = [];
-        foreach ($jamkerja as $item) {
-            $range = [];
-            foreach ($item as $time) {
+		$jamkerjamenit = [];
+		foreach ($jamkerja as $item) {
+			$range = [];
+			foreach ($item as $time) {
 
-                $time = Konversi::setTimesMinutes($time);
-                array_push($range, $time);
-            }
-            array_push($jamkerjamenit, $range);
-        }
+				$time = Konversi::setTimesMinutes($time);
+				array_push($range, $time);
+			}
+			array_push($jamkerjamenit, $range);
+		}
 
-        return $jamkerjamenit;
-
-    }
+		return $jamkerjamenit;
+	}
 }

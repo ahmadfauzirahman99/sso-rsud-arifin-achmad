@@ -13,7 +13,7 @@
 		<span>Dashboard Monitoring</span>
 	</a>
 </li>
-<?php if (Yii::$app->user->identity->roles == 'ROOT' || Yii::$app->user->identity->roles == 'APLIKASI') { ?>
+<?php if (Yii::$app->user->identity->roles == 'ROOT' || Yii::$app->user->identity->roles == 'APLIKASI' || Yii::$app->user->identity->kodeAkun == '1471091710870041') { ?>
 	<li class="nav-label mg-t-25">Data Master</li>
 	<li class="nav-item">
 		<a href="<?= Yii::$app->urlManager->createUrl('aplikasi/index') ?>" class="nav-link">
@@ -42,3 +42,11 @@
 		</a>
 	</li>
 <?php } ?>
+
+<li class="nav-label mg-t-25">Absensi dan Laporan</li>
+<li class="nav-item">
+	<a href="<?= Yii::$app->urlManager->createUrl('dashboard/absensi') ?>" class="nav-link">
+		<i data-feather="list"></i>
+		<span>Absensi Rekan Saya</span>
+	</a>
+</li>

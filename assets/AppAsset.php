@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -15,18 +16,20 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
 
-//        vendor css
+        //        vendor css
         "lib/@fortawesome/fontawesome-free/css/all.min.css",
         "lib/ionicons/css/ionicons.min.css",
         "lib/typicons.font/typicons.css",
         "css/pe-icon-7.css",
 
-//     DashForge CSS
+        //     DashForge CSS
         "assets/css/dashforge.css",
         "assets/css/dashforge.profile.css",
+        'js/toastr/toastr.min.css',
+
     ];
     public $js = [
-//        "lib/jquery/jquery.min.js",
+        //        "lib/jquery/jquery.min.js",
         "lib/bootstrap/js/bootstrap.bundle.min.js",
         "js/bootstrap-notify.js",
         "lib/feather-icons/feather.min.js",
@@ -34,8 +37,10 @@ class AppAsset extends AssetBundle
 
         "assets/js/dashforge.js",
         "assets/js/dashforge.aside.js",
-        'https://cdn.jsdelivr.net/npm/sweetalert2@9',
-//        append theme customizer
+        'js/sweetalert.js',
+        'js/toastr/toastr.min.js',
+
+        //        append theme customizer
         "lib/js-cookie/js.cookie.js",
         "assets/js/dashforge.settings.js",
         "js/sso.js",
@@ -43,6 +48,6 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\web\JqueryAsset',
-//        'yii\bootstrap\BootstrapAsset',
+        //        'yii\bootstrap\BootstrapAsset',
     ];
 }

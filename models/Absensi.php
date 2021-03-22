@@ -17,7 +17,6 @@ use Yii;
  * @property string|null $status
  * @property int $id_tb_absensi
  * @property string|null $how
- * @property string|null $is_del
  */
 class Absensi extends \yii\db\ActiveRecord
 {
@@ -36,7 +35,7 @@ class Absensi extends \yii\db\ActiveRecord
     {
         return [
             [['jam_masuk', 'jam_keluar', 'tanggal_masuk'], 'safe'],
-            [['lat', 'long', 'is_del'], 'string'],
+            [['lat', 'long'], 'string'],
             [['id_pegawai'], 'string', 'max' => 30],
             [['nip_nik'], 'string', 'max' => 40],
             [['status'], 'string', 'max' => 10],
@@ -60,7 +59,6 @@ class Absensi extends \yii\db\ActiveRecord
             'status' => 'Status',
             'id_tb_absensi' => 'Id Tb Absensi',
             'how' => 'How',
-            'is_del' => 'Is Del',
         ];
     }
 }

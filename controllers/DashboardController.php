@@ -9,4 +9,8 @@ class DashboardController extends \yii\web\Controller
         return $this->render('index');
     }
 
+    public function actionAbsensi()
+    {
+        return $this->render('absensi');
+    }
 }

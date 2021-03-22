@@ -43,6 +43,7 @@ use app\assets\AppAsset;
             font-family: 'Quicksand', sans-serif !important
         }
     </style>
+    
     <?php $this->head() ?>
 </head>
 
