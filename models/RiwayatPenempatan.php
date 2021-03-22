@@ -18,6 +18,7 @@ use Yii;
  * @property int|null $sdm_sub_rumpun
  * @property int|null $sdm_jenis
  * @property string|null $jabatan
+ * @property string|null $status_aktif
  */
 class RiwayatPenempatan extends \yii\db\ActiveRecord
 {
@@ -26,16 +27,9 @@ class RiwayatPenempatan extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'sip.tb_riwayat_penempatan';
+        return 'pegawai.tb_riwayat_penempatan';
     }
 
-    /**
-     * @return \yii\db\Connection the database connection used by this AR class.
-     */
-    public static function getDb()
-    {
-        return Yii::$app->get('dbSimpeg');
-    }
 
     /**
      * {@inheritdoc}
