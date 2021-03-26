@@ -34,6 +34,13 @@
 			<span>Koreksi Data</span>
 		</a>
 	</li>
+
+	<li class="nav-item">
+		<a href="<?= Yii::$app->urlManager->createUrl('site/list-absensi') ?>" class="nav-link">
+			<i data-feather="file"></i>
+			<span>Rekap Absensi</span>
+		</a>
+	</li>
 <?php } else { ?>
 	<li class="nav-item">
 		<a href="<?= Yii::$app->urlManager->createUrl('site/list-absensi') ?>" class="nav-link">
