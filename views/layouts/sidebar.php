@@ -41,6 +41,12 @@
 			<span>Rekap Absensi</span>
 		</a>
 	</li>
+	<li class="nav-item">
+		<a href="<?= Yii::$app->urlManager->createUrl('dashboard/rekap-absensi-unit') ?>" class="nav-link">
+			<i data-feather="list"></i>
+			<span>Rekap Absensi Unit</span>
+		</a>
+	</li>
 <?php } else { ?>
 	<li class="nav-item">
 		<a href="<?= Yii::$app->urlManager->createUrl('site/list-absensi') ?>" class="nav-link">
@@ -55,5 +61,11 @@
 	<a href="<?= Yii::$app->urlManager->createUrl('dashboard/absensi') ?>" class="nav-link">
 		<i data-feather="list"></i>
 		<span>Absensi Rekan Saya</span>
+	</a>
+</li>
+<li class="nav-item" style="display: none;">
+	<a href="<?= Yii::$app->urlManager->createUrl('dashboard/rekap-absensi-unit') ?>" class="nav-link">
+		<i data-feather="list"></i>
+		<span>Rekap Absensi Unit</span>
 	</a>
 </li>

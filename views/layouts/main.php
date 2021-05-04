@@ -10,6 +10,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use app\components\Breadcrumbs;
 use app\assets\AppAsset;
+use app\components\HelperSso;
 
 //raoul2000\bootswatch\BootswatchAsset::$theme = 'United';
 \app\assets\AppAsset::register($this);
@@ -24,30 +25,18 @@ use app\assets\AppAsset;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+    <?php $this->head() 
+    ?>
+    <?php
+            $pegawai = HelperSso::getDataPegawaiByNip(Yii::$app->user->identity->idData);
 
-    <style>
-        body,
-        html,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        li,
-        ul,
-        ol,
-        a {
-            font-family: 'Quicksand', sans-serif !important
-        }
-    </style>
-    
-    <?php $this->head() ?>
+    $photo = $pegawai->photo == null ? Yii::$app->request->baseUrl . "/img/user1_128.png" : 'http://sip.simrs.aa/fotoprofil/' . $pegawai->photo
+
+    ?>
 </head>
 
-<body class="page-profile">
+<body class="page-profile ">
     <?php $this->beginBody() ?>
 
     <aside class="aside aside-fixed">
@@ -62,7 +51,7 @@ use app\assets\AppAsset;
         <div class="aside-body">
             <div class="aside-loggedin">
                 <div class="d-flex align-items-center justify-content-start">
-                    <a href="" class="avatar"><img src="<?= Yii::$app->request->baseUrl ?>/img/user1_128.png" class="rounded-circle" alt=""></a>
+                    <a href="" class="avatar"><img src="<?= $photo ?>" class="rounded-circle" alt=""></a>
                     <div class="aside-alert-link">
                         <a href="#global-logout-modal" data-toggle="modal" title="Sign out"><i data-feather="log-out"></i></a>
                     </div>
@@ -83,32 +72,20 @@ use app\assets\AppAsset;
                     </ul>
                 </div>
             </div><!-- aside-loggedin -->
-            <ul class="nav nav-aside">
+            <ul class="nav nav-aside text-sm">
                 <?= $this->render('sidebar.php') ?>
             </ul>
         </div>
     </aside>
 
-    <div class="content ht-100v pd-0">
-        <div class="content-header">
+    <div class="content content-components">
 
-            <nav class="nav">
-                <a href="" class="nav-link"><i data-feather="help-circle"></i></a>
-                <a href="" class="nav-link"><i data-feather="grid"></i></a>
-                <a href="" class="nav-link"><i data-feather="align-left"></i></a>
-            </nav>
-        </div><!-- content-header -->
-
-        <div class="content-body">
-            <div class="container pd-x-0 tx-13">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
-                <?= Alert::widget() ?>
-                <?= $content ?>
-            </div>
-        </div><!-- content-body -->
-    </div><!-- content -->
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+        <?= Alert::widget() ?>
+        <?= $content ?>
+    </div><!-- content-body -->
 
 
     <!--modal logout-->

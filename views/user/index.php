@@ -27,6 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'layout' => "{items}\n{summary}\n{pager}",
+            'tableOptions' => [
+                'class' => 'table table-sm table-bordered table-hover table-list-item'
+            ],
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 //                ['class' => 'yii\grid\ActionColumn'],

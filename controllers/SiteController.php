@@ -253,24 +253,31 @@ class SiteController extends Controller
     public function actionListAbsensi()
     {
 
+
+
         $googleCalander = new HelperSso();
         date_default_timezone_set("Asia/Jakarta");
 
         $hari_kerja = ['Sat', 'Sun'];
+
 
         $absensi = TbPegawai::find()
             ->where(['id_nip_nrp' => Yii::$app->user->identity->kodeAkun])
             ->all();
         $absensis = [];
 
-      
-        $d = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
-        $hariLiburNasional = $googleCalander->cekNationalFreeDay();
-      
+        if (Yii::$app->request->isPost) {
+            $d = cal_days_in_month(CAL_GREGORIAN, $_POST['bulan'], date('Y'));
+            $hariLiburNasional = $googleCalander->cekNationalFreeDay($_POST['bulan']);
+        } else {
+            $d = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+            $hariLiburNasional = $googleCalander->cekNationalFreeDay();
+        }
+        // print_r($hariLiburNasional);
+        // exit;
+
         foreach ($absensi as $data) {
             for ($i = 1; $i <= $d; $i++) {
-                $tanggal = strlen($i) ==  2 ? date('Y-m-' . $i) : date('Y-m-' . "0" . $i);
-                $dHari = date('D', strtotime($tanggal));
 
 
                 if ($i < 10) {
@@ -278,14 +285,35 @@ class SiteController extends Controller
                 } else {
                     $n = $i;
                 }
+                if (Yii::$app->request->isPost) {
+                    $tanggal = strlen($i) ==  2 ? date('Y-' . $_POST['bulan'] . '-' .  $n) : date('Y-' . "0" . $_POST['bulan'] . '-'  .  $n);
+                } else {
+                    $tanggal = strlen($n) ==  2 ? date('Y-m-' .  $n) : date('Y-m-' . "0" .  $n);
+                }
+                $dHari = date('D', strtotime($tanggal));
+
+
+
                 $absen_masuk_pegawai = Absensi::find()
-                    ->where(['=', 'tanggal_masuk', date('Y-m-') . $n])
+                    ->where(['=', 'tanggal_masuk', $tanggal])
                     ->andWhere(['nip_nik' => Yii::$app->user->identity->kodeAkun])
                     ->orderBy(['id_tb_absensi' => SORT_ASC])
                     ->one();
 
+
+                // var_dump($absen_masuk_pegawai);
+                // exit;
                 if ($absen_masuk_pegawai != null) {
-                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:green;'>H</span>";
+
+                    $status = null;
+                    if ($absen_masuk_pegawai->status == 'h') {
+                        $status = 'H';
+                    } elseif ($absen_masuk_pegawai->status == 'i') {
+                        $status = 'I';
+                    } else {
+                        $status = 'Ib';
+                    }
+                    $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:green;'>$status</span>";
                 } elseif (in_array($tanggal, $hariLiburNasional)) {
                     $absensis[$data->pegawai_id]['absensi'][$i]['kehadiran'] = "<span style='color:red;'>LN</span>";
                 } elseif (in_array($dHari, $hari_kerja)) {
@@ -297,11 +325,10 @@ class SiteController extends Controller
         }
 
 
-        // exit();
-
         return $this->render('list-absensi', [
             'absensis' => $absensis,
-          
+            'absensi' => $absensi
+
         ]);
     }
 }

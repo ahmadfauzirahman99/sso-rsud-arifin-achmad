@@ -8,6 +8,7 @@ use app\models\DataMasterStatusKepegawain;
 use app\models\Sesi;
 use app\models\TbPegawai;
 use app\components\GoogleCalendar;
+use app\models\Absensi;
 
 class HelperSso
 {
@@ -79,12 +80,15 @@ class HelperSso
 	/**
 	 * @return array date hari libur nasional
 	 */
-	public function cekNationalFreeDay()
+	public function cekNationalFreeDay($m = null)
 	{
 		$Y = date('Y', strtotime(date('Y')));
-		$m = date('m', strtotime(date('m')));
+
+		if (is_null($m)) {
+			$m = date('m');
+		}
 		$calendar = new GoogleCalendar();
-		$holiday = $calendar->getHolidayThisMonth($Y, 3);
+		$holiday = $calendar->getHolidayThisMonth($Y, $m);
 		$date = [];
 		foreach ($holiday as $key => $value) {
 			array_push($date, $key);
@@ -92,41 +96,41 @@ class HelperSso
 		return $date;
 	}
 
-	/**
-	 * @param $add penambahan hari ketika hari dalam seminggu habis
-	 * @param $delay delay pengecekan hari kerja dimulai
-	 * @return array
-	 */
-	public function getHariKerja($add, $delay = 0)
-	{
-		$start = date('Y-m-d');
+	// /**
+	//  * @param $add penambahan hari ketika hari dalam seminggu habis
+	//  * @param $delay delay pengecekan hari kerja dimulai
+	//  * @return array
+	//  */
+	// public function getHariKerja($add, $delay = 0)
+	// {
+	// 	$start = date('Y-m-d');
 
-		$start = date('Y-m-d', strtotime("+$delay days", strtotime($start)));
+	// 	$start = date('Y-m-d', strtotime("+$delay days", strtotime($start)));
 
-		$dayinweek = date('w');
-		$thisweek = $add - $dayinweek;
-		$untilnextweek = $thisweek + $add;
-		$end = date('Y-m-d', strtotime('+' . $untilnextweek . ' days', strtotime($start)));
-		$this->date_end = $end;
+	// 	$dayinweek = date('w');
+	// 	$thisweek = $add - $dayinweek;
+	// 	$untilnextweek = $thisweek + $add;
+	// 	$end = date('Y-m-d', strtotime('+' . $untilnextweek . ' days', strtotime($start)));
+	// 	$this->date_end = $end;
 
-		$buka_range_jadwal = $this->createDateRangeArray($start, $end);
+	// 	$buka_range_jadwal = $this->createDateRangeArray($start, $end);
 
-		/** @var y-m-d arr $hasil selisih antara range set jadwal dengan jadwal libur nasional */
-		$hasil = array_diff($buka_range_jadwal, $this->cekNationalFreeDay());
+	// 	/** @var y-m-d arr $hasil selisih antara range set jadwal dengan jadwal libur nasional */
+	// 	$hasil = array_diff($buka_range_jadwal, $this->cekNationalFreeDay());
 
-		/** @var y-m-d arr $worksday waktu kerja (bukan waktu weekend dan libur nasional ) */
-		$worksday = [];
-		foreach ($hasil as $item) {
-			$toweek = date('w Y-m-d', strtotime($item));
-			//            0 adalah hari minggu dan 6 adalah sabtu
-			if ($toweek[0] == '0' || $toweek[0] == '6') {
-				unset($toweek);
-			} else {
-				array_push($worksday, $item);
-			}
-		}
-		return $worksday;
-	}
+	// 	/** @var y-m-d arr $worksday waktu kerja (bukan waktu weekend dan libur nasional ) */
+	// 	$worksday = [];
+	// 	foreach ($hasil as $item) {
+	// 		$toweek = date('w Y-m-d', strtotime($item));
+	// 		//            0 adalah hari minggu dan 6 adalah sabtu
+	// 		if ($toweek[0] == '0' || $toweek[0] == '6') {
+	// 			unset($toweek);
+	// 		} else {
+	// 			array_push($worksday, $item);
+	// 		}
+	// 	}
+	// 	return $worksday;
+	// }
 
 	public function createDateRangeArray($start, $end)
 	{
@@ -165,5 +169,187 @@ class HelperSso
 		}
 
 		return $jamkerjamenit;
+	}
+
+	static function tgl_indo($tanggal)
+	{
+		$bulan = array(
+			1 => 'Januari',
+			'Februari',
+			'Maret',
+			'April',
+			'Mei',
+			'Juni',
+			'Juli',
+			'Agustus',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+		);
+		$pecahkan = explode('-', $tanggal);
+
+		// variabel pecahkan 0 = tanggal
+		// variabel pecahkan 1 = bulan
+		// variabel pecahkan 2 = tahun
+
+		return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+	}
+
+	static function hari_ini($d)
+	{
+		$hari = $d;
+
+		switch ($hari) {
+			case 'Sun':
+				$hari_ini = "Minggu";
+				break;
+
+			case 'Mon':
+				$hari_ini = "Senin";
+				break;
+
+			case 'Tue':
+				$hari_ini = "Selasa";
+				break;
+
+			case 'Wed':
+				$hari_ini = "Rabu";
+				break;
+
+			case 'Thu':
+				$hari_ini = "Kamis";
+				break;
+
+			case 'Fri':
+				$hari_ini = "Jumat";
+				break;
+
+			case 'Sat':
+				$hari_ini = "Sabtu";
+				break;
+
+			default:
+				$hari_ini = "Tidak di ketahui";
+				break;
+		}
+
+		return $hari_ini;
+	}
+
+	static function menghitung_selisih($waktu_awal, $waktu_akhir)
+	{
+		$awl = strtotime($waktu_awal);
+		$akh = strtotime($waktu_akhir); // bisa juga waktu sekarang now()
+		//menghitung selisih dengan hasil detik
+		$diff = $awl - $akh;
+
+		//membagi detik menjadi jam
+		$jam = floor($diff / (60 * 60));
+
+		//membagi sisa detik setelah dikurangi $jam menjadi menit
+		$menit = $diff - $jam * (60 * 60);
+
+		return $jam . " Jam dan " . floor($menit / 60) . " Menit";
+	}
+
+	static function menghitung_jumlah_ovt($waktu_jam_pulang, $waktu_normal)
+	{
+		$awl = strtotime($waktu_jam_pulang);
+		$akh = strtotime($waktu_normal); // bisa juga waktu sekarang now()
+		//menghitung selisih dengan hasil detik
+		$diff = $awl - $akh;
+
+		//membagi detik menjadi jam
+		$jam = floor($diff / (60 * 60));
+
+		//membagi sisa detik setelah dikurangi $jam menjadi menit
+		$menit = $diff - $jam * (60 * 60);
+
+		if ($jam == 0) {
+			return floor($menit / 60);
+		} else {
+
+			return $jam . " Jam dan " . floor($menit / 60) . " Menit";
+		}
+	}
+
+	static function menghitung_jumlah_cpt_pulang($waktu_jam_pulang, $waktu_normal)
+	{
+		$awl = strtotime($waktu_normal);
+		$akh = strtotime($waktu_jam_pulang); // bisa juga waktu sekarang now()
+		//menghitung selisih dengan hasil detik
+		$diff = $awl - $akh;
+
+		//membagi detik menjadi jam
+		$jam = floor($diff / (60 * 60));
+
+		//membagi sisa detik setelah dikurangi $jam menjadi menit
+		$menit = $diff - $jam * (60 * 60);
+
+		if ($jam == -1) {
+			return floor($menit / 60);
+		} else {
+
+			return floor($menit / 60);
+		}
+	}
+
+	static function menghitung_jumlah_tlt_datang($waktu_jam_pulang, $waktu_normal)
+	{
+		$awl = strtotime($waktu_jam_pulang);
+		$akh = strtotime($waktu_normal); // bisa juga waktu sekarang now()
+		//menghitung selisih dengan hasil detik
+		$diff = $awl - $akh;
+
+		//membagi detik menjadi jam
+		$jam = floor($diff / (60 * 60));
+
+		//membagi sisa detik setelah dikurangi $jam menjadi menit
+		$menit = $diff - $jam * (60 * 60);
+
+		if ($jam == -1) {
+			return floor($menit / 60);
+		} else {
+
+			return floor($menit / 60);
+		}
+	}
+
+
+	static function menghitungTotalHadir($d)
+	{
+		$hari_ini = date("Y-m-d",strtotime('-1 month'));
+		$tgl_pertama = date('Y-m-01', strtotime($hari_ini));
+		$tgl_terakhir = date('Y-m-t', strtotime($hari_ini));
+
+		$modal = Absensi::find()->where(['nip_nik' => $d, 'status' => 'h'])
+			->andWhere(['between', 'DATE(tanggal_masuk)', $tgl_pertama, $tgl_terakhir])
+			->count('nip_nik');
+		return $modal;
+	}
+
+	static function menghitungTotalAlfa($d)
+	{
+		$hari_ini = date("Y-m-d",strtotime('-1 month'));
+		$tgl_pertama = date('Y-m-01', strtotime($hari_ini));
+		$tgl_terakhir = date('Y-m-t', strtotime($hari_ini));
+
+		$modal = Absensi::find()->where(['nip_nik' => $d, 'status' => 'a'])
+			->andWhere(['between', 'DATE(tanggal_masuk)', $tgl_pertama, $tgl_terakhir])
+			->count('nip_nik');
+		return $modal;
+	}
+	static function menghitungTotalIzin($d)
+	{
+		$hari_ini = date("Y-m-d",strtotime('-1 month'));
+		$tgl_pertama = date('Y-m-01', strtotime($hari_ini));
+		$tgl_terakhir = date('Y-m-t', strtotime($hari_ini));
+
+		$modal = Absensi::find()->where(['nip_nik' => $d])
+			->andWhere(['in', 'status' , ['i', 'ib']])
+			->andWhere(['between', 'DATE(tanggal_masuk)', $tgl_pertama, $tgl_terakhir])
+			->count('nip_nik');
+		return $modal;
 	}
 }

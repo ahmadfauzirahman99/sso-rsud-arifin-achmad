@@ -21,6 +21,7 @@ $absen = Absensi::find()->alias('a')
 	->where(["a.tanggal_masuk" => date("Y-m-d")])
 	->andWhere(['a.nip_nik' => Yii::$app->user->identity->kodeAkun])->one();
 date_default_timezone_set("Asia/Jakarta");
+$photo = $pegawai->photo == null ? Yii::$app->request->baseUrl . "/img/user1_128.png" : 'http://sip.simrs.aa/fotoprofil/' . $pegawai->photo
 
 ?>
 <?php Pjax::begin(['id' => 'pjax-dashboard']); ?>
@@ -31,14 +32,12 @@ date_default_timezone_set("Asia/Jakarta");
 		<div class="card mg-b-20 mg-lg-b-25">
 			<div class="card-body">
 				<?php if (is_null($absen)) { ?>
-					<a href="javascript:void(0)" onclick='absenMasuk(this)' data-value="<?= Yii::$app->user->identity->idData ?>" class="btn btn-outline-primary btn-block">Absen Masuk <b> Pukul :<?= date('H:i:s') ?></b> WIB</a>
 				<?php } else { ?>
 					<h4 class="text-center">Anda Telah Absen Masuk <b>Pada Pukul <?= $absen->jam_masuk ?> WIB</b></h4>
 					<hr>
 				<?php } ?>
 				<?php if (!is_null($absen)) { ?>
 					<?php if (is_null($absen->jam_keluar)) { ?>
-						<a href="javascript:void(0)" onclick="absenKeluar(this)" data-value="<?= Yii::$app->user->identity->idData ?>" class="btn btn-outline-danger btn-block">Absen Pulang <b> Pukul :<?= date('H:i:s') ?></b> WIB</a>
 					<?php } else { ?>
 						<h4 class="text-center">Anda Telah Absen Keluar <b>Pada Pukul <?= $absen->jam_keluar ?> WIB</b></h4>
 					<?php } ?>
@@ -59,7 +58,7 @@ date_default_timezone_set("Asia/Jakarta");
 			<div class="card-body pd-25">
 				<div class="media d-block d-sm-flex">
 					<div class="wd-80 ht-80 bg-ui-04 rounded d-flex align-items-center justify-content-center">
-						<img src="<?= Yii::$app->request->baseUrl ?>/img/user1_128.png" alt="">
+						<img src="<?= $photo ?>" width="100px" height="100px" class="img-thumbnail" alt="">
 					</div>
 					<div class="media-body pd-t-25 pd-sm-t-0 pd-sm-l-25">
 						<h5 class="mg-b-5"><?= Yii::$app->user->identity->nama ?></h5>
@@ -76,9 +75,6 @@ date_default_timezone_set("Asia/Jakarta");
 				<hr class="mg-y-25">
 
 				<did class="row">
-					<div class="col-lg-12">
-						<a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changefoto" class="btn btn-block btn-outline-info">Change Foto <span class="fa fa-image"></span></a>
-					</div>
 					<div class="col-lg-12 mg-y-25">
 						<a href="#" data-value="<?= $pegawai->id_nip_nrp ?>" id="changepassword" class="btn btn-block btn-outline-warning">Change Password <span class="fa fa-lock"></span></a>
 					</div>

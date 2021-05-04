@@ -64,9 +64,9 @@
     background-image: none;
 }
 
-.form-holder {
+/* .form-holder {
     margin-left: 550px;
-}
+} */
 
 .form-holder .form-content ::-webkit-input-placeholder {
     color: #000000;
